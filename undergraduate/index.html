@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visualizations with Experimental AI</title>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" async></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+  <style>
+    :root {
+      --background-color: #f9f9f9;
+      --primary-color: #007bff;
+      --text-color: #333;
+      --heading-color: #111;
+      --hover-color: #0056b3;
+      --border-color: #ddd;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--background-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    main {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    /* --- Helper Classes --- */
+    .hidden {
+      display: none;
+    }
+
+    /* --- Home View Styles --- */
+    #home-view {
+      text-align: center;
+    }
+
+    #home-view h1 {
+      font-size: 2.5rem;
+      color: var(--heading-color);
+      margin-bottom: 0.5rem;
+    }
+
+    #home-view p {
+      font-size: 1.1rem;
+      margin-bottom: 3rem;
+    }
+
+    .project-list {
+      text-align: left;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .project-list h2 {
+      font-size: 1.5rem;
+      color: var(--heading-color);
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.5rem;
+      margin-top: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .project-list ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .project-list li a {
+      display: block;
+      padding: 0.5rem 0.25rem;
+      color: var(--primary-color);
+      text-decoration: none;
+      font-size: 1rem;
+      transition: color 0.2s ease;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .project-list li a:hover {
+      color: var(--hover-color);
+      text-decoration: underline;
+    }
+
+    .back-link {
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        cursor: pointer;
+    }
+
+    .back-link:hover {
+        color: var(--hover-color);
+        text-decoration: underline;
+    }
+
+    /* --- Shared View Header --- */
+    .view-header {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 1rem;
+    }
+
+    /* --- Shared Canvas & Controls Styles --- */
+    .controls {
+        margin-top: 1.5rem;
+        padding: 1rem;
+        background-color: #f0f0f0;
+        border-radius: 8px;
+        border: 1px solid #e0e0e0;
+    }
+    
+    .control-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1rem;
+        align-items: center;
+    }
+    
+    .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .control-group label {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: #555;
+    }
+    
+    .control-group input[type="range"] {
+        width: 100%;
+        cursor: pointer;
+    }
+
+    .control-group select {
+        padding: 0.25rem;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+    }
+    
+    .button-group {
+        display: flex;
+        justify-content: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+    }
+    
+    .button-group button {
+        padding: 0.6rem 1.2rem;
+        font-size: 1rem;
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+    
+    .button-group button:hover {
+        background-color: var(--hover-color);
+    }
+    
+    .button-group button.secondary {
+        background-color: #6c757d;
+    }
+    .button-group button.secondary:hover {
+        background-color: #5a6268;
+    }
+
+    canvas {
+      background-color: #fff;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      width: 100%;
+      height: auto;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+      margin-top: 1.5rem;
+    }
+
+    /* --- Individual View Styles --- */
+    .view-container {
+      width: 100%;
+      text-align: center;
+    }
+
+    .view-container h1 {
+      font-size: 2.2rem;
+      color: var(--heading-color);
+      margin-bottom: 0.5rem;
+    }
+
+    .view-container p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* --- Explanation Section --- */
+    .explanation {
+      max-width: 100%;
+      margin: 3rem auto 1rem auto;
+      text-align: left;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .explanation h2 {
+      font-size: 1.5rem;
+      color: var(--heading-color);
+      margin-bottom: 1rem;
+    }
+
+    .explanation p, .explanation ul, .explanation ol {
+      margin-bottom: 1.25rem;
+    }
+
+    .explanation ul, .explanation ol {
+        padding-left: 20px;
+    }
+
+    .explanation li {
+        margin-bottom: 0.5rem;
+    }
+
+    /* Center block-level MathJax formulas */
+    mjx-container[jax="CHTML"][display="true"] {
+        margin: 1.5em 0;
+    }
+
+    /* --- Responsive Design --- */
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+      
+      #home-view h1 {
+        font-size: 2rem;
+      }
+      #home-view p {
+        font-size: 1rem;
+      }
+      .project-list h2 {
+        font-size: 1.3rem;
+      }
+
+      .view-container h1 {
+        font-size: 1.8rem;
+      }
+      .view-container p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+
+  <main id="app-container">
+    <!-- Home Page View -->
+    <section id="home-view">
+      <div class="project-list" aria-label="My Projects">
+        <h2>Mathematical Animations</h2>
+        <ul>
+          <li><a href="#" data-view="fourier">Fourier Series Visualization</a></li>
+          <li><a href="#" data-view="fractal">Fractal Tree Generator</a></li>
+          <li><a href="#" data-view="lissajous">Lissajous Curve Explorer</a></li>
+          <li><a href="#" data-view="pi">Pi Approximation Simulation</a></li>
+        </ul>
+        <h2>Physics Simulations</h2>
+        <ul>
+          <li><a href="#" data-view="physics">Physics Simulation (Matter.js)</a></li>
+        </ul>
+        <h2>Probability & Statistics</h2>
+        <ul>
+          <li><a href="#" data-view="galton">Galton Board (Central Limit Theorem)</a></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Fourier Visualization View -->
+    <section id="fourier-view" class="view-container hidden">
+      <header class="view-header">
+          <a href="#" data-view="home" class="back-link">&larr; Back to Projects</a>
+      </header>
+      <div class="content">
+          <h1>Fourier Series Visualization</h1>
+          <p>Approximating periodic waves with epicycles.</p>
+          <canvas id="fourier-canvas"></canvas>
+          <div class="controls">
+            <div class="control-grid">
+              <div class="control-group">
+                <label for="fourier-terms-slider">Number of Terms: <span id="fourier-terms-display">5</span></label>
+                <input type="range" id="fourier-terms-slider" min="1" max="100" value="5" step="1" aria-label="Number of Terms">
+              </div>
+              <div class="control-group">
+                <label for="fourier-speed-slider">Animation Speed: <span id="fourier-speed-display">1x</span></label>
+                <input type="range" id="fourier-speed-slider" min="0.1" max="5" value="1" step="0.1" aria-label="Animation Speed">
+              </div>
+              <div class="control-group">
+                <label for="fourier-wave-select">Wave Type</label>
+                <select id="fourier-wave-select">
+                  <option value="square" selected>Square Wave</option>
+                  <option value="sawtooth">Sawtooth Wave</option>
+                  <option value="triangle">Triangle Wave</option>
+                </select>
+              </div>
+            </div>
+            <div class="button-group">
+                <button id="fourier-start-pause">Start</button>
+                <button id="fourier-reset" class="secondary">Reset</button>
+            </div>
+          </div>
+
+          <section class="explanation">
+            <h2>The Math Behind the Visualization</h2>
+            <p>
+                This animation demonstrates a <strong>Fourier Series</strong>, a powerful mathematical tool that represents a complex, periodic function as an infinite sum of simple sine and cosine waves. Each rotating circle (epicycle) represents one term in this sum.
+            </p>
+            <p>You can choose which wave to approximate:</p>
+            <ul>
+              <li><strong>Square Wave:</strong>
+                $$ f(x) = \frac{4A}{\pi} \sum_{k=1, 3, 5, ...}^{\infty} \frac{1}{k} \sin(k \cdot x) $$
+              </li>
+              <li><strong>Sawtooth Wave:</strong>
+                $$ f(x) = \frac{A}{2} - \frac{A}{\pi} \sum_{k=1}^{\infty} \frac{1}{k} \sin(k \cdot x) $$
+              </li>
+              <li><strong>Triangle Wave:</strong>
+                $$ f(x) = \frac{8A}{\pi^2} \sum_{k=1, 3, 5, ...}^{\infty} \frac{(-1)^{(k-1)/2}}{k^2} \sin(k \cdot x) $$
+              </li>
+            </ul>
+            <p>
+                Here’s how the formulas map to the animation:
+            </p>
+            <ul>
+                <li><strong>The Summation (\(\sum\)):</strong> Each term in the series corresponds to one epicycle. The "Number of Terms" slider controls how many epicycles are included.</li>
+                <li><strong>The Radius:</strong> The coefficient before the sine function (e.g., \( \frac{4A}{k\pi} \) for the square wave) determines the radius of each circle. Notice that radii generally get smaller for higher \(k\).</li>
+                <li><strong>The Rotation Speed:</strong> The value of \(k\) inside the sine function determines the rotation speed. A circle for term \(k=3\) rotates three times faster than the circle for \(k=1\).</li>
+                <li><strong>Animation Speed:</strong> This slider acts as a multiplier on the time variable, making all circles rotate faster or slower together.</li>
+            </ul>
+            <p>
+                The pen at the tip of the last, smallest circle traces the resulting wave. As you add more terms, the approximation gets closer to the ideal wave shape.
+            </p>
+        </section>
+      </div>
+    </section>
+
+    <!-- Galton Board Visualization View -->
+    <section id="galton-view" class="view-container hidden">
+      <header class="view-header">
+          <a href="#" data-view="home" class="back-link">&larr; Back to Projects</a>
+      </header>
+      <div class="content">
+          <h1>Galton Board Simulation</h1>
+          <p>Visualizing the Central Limit Theorem with a bean machine.</p>
+          <canvas id="galton-canvas"></canvas>
+          <div class="controls">
+            <div class="control-grid">
+              <div class="control-group">
+                  <label for="galton-levels-slider">Levels: <span id="galton-levels-display">12</span></label>
+                  <input type="range" id="galton-levels-slider" min="4" max="20" value="12" step="1" aria-label="Number of Levels">
+              </div>
+              <div class="control-group">
+                  <label for="galton-balls-slider">Number of Balls: <span id="galton-balls-display">500</span></label>
+                  <input type="range" id="galton-balls-slider" min="100" max="2000" value="500" step="50" aria-label="Number of Balls">
+              </div>
+              <div class="control-group">
+                  <label for="galton-speed-slider">Drop Speed: <span id="galton-speed-display">3</span></label>
+                  <input type="range" id="galton-speed-slider" min="1" max="10" value="3" step="1" aria-label="Drop Speed">
+              </div>
+              <div class="control-group">
+                  <label for="galton-bias-slider">Peg Bias (Right): <span id="galton-bias-display">0.50</span></label>
+                  <input type="range" id="galton-bias-slider" min="0" max="1" value="0.5" step="0.01" aria-label="Peg Bias">
+              </div>
+            </div>
+            <div class="button-group">
+                <button id="galton-start-pause">Start</button>
+                <button id="galton-reset" class="secondary">Reset</button>
+            </div>
+            <p style="margin-top: 1rem; font-weight: 500;">Balls Dropped: <span id="ball-count-display">0</span></p>
+          </div>
+          <section class="explanation">
+            <h2>The Math Behind the Visualization</h2>
+            <p>The Galton Board is a classic device for demonstrating how randomness can lead to a predictable pattern. As balls drop, they hit pegs and randomly move left or right, eventually collecting in bins.</p>
+            <p>The final distribution of the balls approximates a <strong>Binomial Distribution</strong>. When the probability of going left or right is equal (a bias of 0.5), this distribution approaches the bell-shaped <strong>Normal Distribution</strong>, a cornerstone of statistics. This illustrates the <strong>Central Limit Theorem</strong>.</p>
+            <p>The probability of a ball landing in a specific bin is given by:</p>
+            $$ P(k) = \binom{n}{k} p^k (1-p)^{n-k} $$
+            <ul>
+                <li>\(n\) is the number of <strong>Levels</strong> (trials).</li>
+                <li>\(k\) is the number of times the ball went right.</li>
+                <li>\(p\) is the probability of going right, controlled by the <strong>Peg Bias</strong> slider.</li>
+            </ul>
+            <p><strong>Experiment with the controls:</strong></p>
+            <ul>
+              <li><strong>Levels:</strong> Increasing the levels makes the final distribution smoother and wider.</li>
+              <li><strong>Number of Balls:</strong> More balls provide a better approximation of the theoretical distribution.</li>
+              <li><strong>Peg Bias:</strong> Change this value from 0.5 to see the distribution become skewed. A bias of 0.7 means balls have a 70% chance of going right at each peg, shifting the entire curve to the right.</li>
+            </ul>
+          </section>
+      </div>
+    </section>
+    
+    <!-- Fractal Tree View -->
+    <section id="fractal-view" class="view-container hidden">
+      <header class="view-header">
+        <a href="#" data-view="home" class="back-link">&larr; Back to Projects</a>
+      </header>
+      <div class="content">
+        <h1>Fractal Tree Generator</h1>
+        <p>A recursive visualization of a branching tree.</p>
+        <canvas id="fractal-canvas"></canvas>
+        <div class="controls">
+          <div class="control-grid">
+            <div class="control-group">
+              <label for="fractal-angle-slider">Branch Angle: <span id="fractal-angle-display">30</span>°</label>
+              <input type="range" id="fractal-angle-slider" min="0" max="180" value="30" step="1" aria-label="Branch Angle">
+            </div>
+            <div class="control-group">
+              <label for="fractal-depth-slider">Recursion Depth: <span id="fractal-depth-display">10</span></label>
+              <input type="range" id="fractal-depth-slider" min="1" max="15" value="10" step="1" aria-label="Recursion Depth">
+            </div>
+            <div class="control-group">
+              <label for="fractal-shrink-slider">Length Shrink Factor: <span id="fractal-shrink-display">0.75</span></label>
+              <input type="range" id="fractal-shrink-slider" min="0.5" max="0.9" value="0.75" step="0.01" aria-label="Length Shrink Factor">
+            </div>
+            <div class="control-group">
+              <label for="fractal-variance-slider">Branch Variance: <span id="fractal-variance-display">0</span></label>
+              <input type="range" id="fractal-variance-slider" min="0" max="0.5" value="0" step="0.01" aria-label="Branch Variance">
+            </div>
+          </div>
+        </div>
+        <section class="explanation">
+          <h2>How It Works</h2>
+          <p>A fractal is a never-ending pattern that is self-similar across different scales. This tree is generated using a simple <strong>recursive algorithm</strong>:</p>
+          <ol>
+            <li>Start with a trunk (a single line).</li>
+            <li>At the end of the trunk, draw two new, shorter branches at a specific angle.</li>
+            <li>Repeat this process for each new branch until a desired "depth" (number of recursions) is reached.</li>
+          </ol>
+          <p><strong>Explore the controls:</strong></p>
+          <ul>
+            <li><strong>Branch Angle:</strong> Sets the angle between the two new branches at each split.</li>
+            <li><strong>Recursion Depth:</strong> Determines how many times the branching process is repeated. High depths create more complex trees but require more computation.</li>
+            <li><strong>Length Shrink Factor:</strong> The ratio of a child branch's length to its parent's. A smaller value results in a more compact, bushier tree.</li>
+            <li><strong>Branch Variance:</strong> Adds a touch of randomness to the branch angles and lengths, creating more organic, natural-looking trees.</li>
+          </ul>
+          <p>This is a classic example of how simple, repeated rules can lead to complex and beautiful emergent patterns.</p>
+        </section>
+      </div>
+    </section>
+
+    <!-- Lissajous Curve View -->
+    <section id="lissajous-view" class="view-container hidden">
+      <header class="view-header">
+        <a href="#" data-view="home" class="back-link">&larr; Back to Projects</a>
+      </header>
+      <div class="content">
+        <h1>Lissajous Curve Explorer</h1>
+        <p>Visualizing the relationship between two sine waves.</p>
+        <canvas id="lissajous-canvas"></canvas>
+        <div class="controls">
+          <div class="control-grid">
+            <div class="control-group">
+              <label for="lissajous-freqA-slider">Frequency A (X-axis): <span id="lissajous-freqA-display">3</span></label>
+              <input type="range" id="lissajous-freqA-slider" min="1" max="12" value="3" step="1" aria-label="Frequency A">
+            </div>
+            <div class="control-group">
+              <label for="lissajous-freqB-slider">Frequency B (Y-axis): <span id="lissajous-freqB-display">2</span></label>
+              <input type="range" id="lissajous-freqB-slider" min="1" max="12" value="2" step="1" aria-label="Frequency B">
+            </div>
+            <div class="control-group">
+              <label for="lissajous-phase-slider">Phase Shift: <span id="lissajous-phase-display">0.50</span> π</label>
+              <input type="range" id="lissajous-phase-slider" min="0" max="2" value="0.5" step="0.01" aria-label="Phase Shift">
+            </div>
+            <div class="control-group">
+              <label for="lissajous-speed-slider">Animation Speed: <span id="lissajous-speed-display">1x</span></label>
+              <input type="range" id="lissajous-speed-slider" min="0.1" max="5" value="1" step="0.1" aria-label="Animation Speed">
+            </div>
+          </div>
+          <div class="button-group">
+            <button id="lissajous-start-pause">Start</button>
+            <button id="lissajous-reset" class="secondary">Reset</button>
+          </div>
+        </div>
+        <section class="explanation">
+          <h2>What are Lissajous Curves?</h2>
+          <p>A Lissajous curve is the graph of a system of parametric equations that describe complex harmonic motion. It is produced when two sine waves are combined at right angles.</p>
+          <p>The equations for the curve are:</p>
+          $$ x(t) = A \sin(a \cdot t + \delta) $$
+          $$ y(t) = B \sin(b \cdot t) $$
+          <ul>
+            <li><b>\(a\)</b> and <b>\(b\)</b> are the frequencies of the waves on the x and y axes, controlled by the <strong>Frequency</strong> sliders.</li>
+            <li><b>\( \delta \)</b> is the <strong>Phase Shift</strong> between the two waves. You can see how changing the phase rotates and transforms the figure. It is represented in multiples of π.</li>
+            <li>The ratio \(a/b\) determines the number of "lobes" on the curve horizontally and vertically. Simple integer ratios produce stable, closed curves.</li>
+          </ul>
+        </section>
+      </div>
+    </section>
+    
+    <!-- Pi Approximation View -->
+    <section id="pi-view" class="view-container hidden">
+      <header class="view-header">
+        <a href="#" data-view="home" class="back-link">&larr; Back to Projects</a>
+      </header>
+      <div class="content">
+        <h1>Pi Approximation Simulation</h1>
+        <p>Estimating π using the Monte Carlo method.</p>
+        <canvas id="pi-canvas"></canvas>
+        <div class="controls">
+          <div class="control-grid">
+            <div class="control-group">
+              <label for="pi-speed-slider">Simulation Speed (Points/Frame): <span id="pi-speed-display">50</span></label>
+              <input type="range" id="pi-speed-slider" min="1" max="500" value="50" step="1" aria-label="Simulation Speed">
+            </div>
+            <div class="control-group" style="text-align: center;">
+              <p style="margin: 0; font-size: 1.2rem; font-weight: 500;" id="pi-display">π ≈ 0.000000</p>
+              <p style="margin: 0; font-size: 0.9rem;" id="pi-points-display">Points: 0 / 0</p>
+            </div>
+          </div>
+          <div class="button-group">
+              <button id="pi-start-pause">Start</button>
+              <button id="pi-reset" class="secondary">Reset</button>
+          </div>
+        </div>
+        <section class="explanation">
+          <h2>The Monte Carlo Method</h2>
+          <p>This animation estimates the value of π using a probabilistic method. It works by "throwing darts" randomly at a square that contains an inscribed circle.</p>
+          <ul>
+            <li>The ratio of the area of the circle to the area of the square is \( \frac{\pi r^2}{(2r)^2} = \frac{\pi}{4} \).</li>
+          </ul>
+          <p>By scattering thousands of random points, we can assume that the ratio of points that land inside the circle to the total number of points is approximately equal to the ratio of the areas:</p>
+          $$ \frac{\text{Points inside circle}}{\text{Total points}} \approx \frac{\text{Area of circle}}{\text{Area of square}} = \frac{\pi}{4} $$
+          <p>By rearranging this relationship, we can approximate π:</p>
+          $$ \pi \approx 4 \times \frac{\text{Points inside circle}}{\text{Total points}} $$
+          <p>The more points we use, the more accurate our approximation becomes, demonstrating the law of large numbers.</p>
+        </section>
+      </div>
+    </section>
+
+    <!-- Physics Simulation View -->
+    <section id="physics-view" class="view-container hidden">
+      <header class="view-header">
+        <a href="#" data-view="home" class="back-link">&larr; Back to Projects</a>
+      </header>
+      <div class="content">
+        <h1>Physics Simulation</h1>
+        <p>A simple 2D rigid body physics engine using Matter.js.</p>
+        <canvas id="physics-canvas"></canvas>
+        <div class="controls">
+          <div class="control-grid">
+            <div class="control-group">
+                <label for="physics-gravityX-slider">Gravity X: <span id="physics-gravityX-display">0</span></label>
+                <input type="range" id="physics-gravityX-slider" min="-2" max="2" value="0" step="0.1" aria-label="Gravity X">
+            </div>
+            <div class="control-group">
+                <label for="physics-gravityY-slider">Gravity Y: <span id="physics-gravityY-display">1</span></label>
+                <input type="range" id="physics-gravityY-slider" min="-2" max="2" value="1" step="0.1" aria-label="Gravity Y">
+            </div>
+            <div class="control-group">
+                <label for="physics-friction-slider">Friction: <span id="physics-friction-display">0.1</span></label>
+                <input type="range" id="physics-friction-slider" min="0" max="1" value="0.1" step="0.05" aria-label="Friction">
+            </div>
+            <div class="control-group">
+                <label for="physics-restitution-slider">Bounciness: <span id="physics-restitution-display">0.6</span></label>
+                <input type="range" id="physics-restitution-slider" min="0" max="1.5" value="0.6" step="0.05" aria-label="Bounciness">
+            </div>
+            <div class="control-group">
+                <label for="physics-shape-select">Shape to Add</label>
+                <select id="physics-shape-select">
+                  <option value="box" selected>Box</option>
+                  <option value="circle">Circle</option>
+                  <option value="polygon">Polygon</option>
+                </select>
+            </div>
+          </div>
+          <div class="button-group">
+              <button id="physics-add-shape">Add Shape</button>
+              <button id="physics-reset" class="secondary">Reset World</button>
+          </div>
+        </div>
+        <section class="explanation">
+          <h2>Matter.js Engine</h2>
+          <p>This is a demonstration of the <a href="https://brm.io/matter-js/" target="_blank" rel="noopener noreferrer">Matter.js</a> 2D physics engine. It simulates rigid body dynamics.</p>
+          <ul>
+            <li><strong>Engine:</strong> Manages the simulation, updating the world state over time.</li>
+            <li><strong>World:</strong> The container for all bodies and constraints. You can manipulate the world's <strong>Gravity</strong> using the sliders.</li>
+            <li><strong>Bodies:</strong> Rigid objects (shapes) that interact. The walls are <em>static</em> bodies (they don't move).</li>
+            <li><strong>Properties:</strong> When adding new shapes, you can define their properties:
+              <ul>
+                  <li><strong>Friction:</strong> The resistance to sliding motion between surfaces. Higher values mean objects slow down more when rubbing against each other.</li>
+                  <li><strong>Bounciness (Restitution):</strong> The "elasticity" of an object. A value of 0 means no bounce, 1 means a perfectly elastic collision (no energy loss), and >1 means it gains energy on impact.</li>
+              </ul>
+            </li>
+          </ul>
+          <p>Click "Add Shape" to drop new objects with the selected properties into the world. Experiment with different gravity and property settings to see how they affect the simulation.</p>
+        </section>
+      </div>
+    </section>
+  </main>
+  
+  <script>
+    /**
+     * @license
+     * SPDX-License-Identifier: Apache-2.0
+     */
+
+    /**
+     * Base class for all visualizations to handle common state like running status.
+     */
+    class Visualizer {
+        constructor() {
+            this.isRunning = false;
+            this.animationFrameId = null;
+        }
+
+        // Methods to be implemented by subclasses
+        start() { throw new Error("Start method must be implemented"); }
+        stop() { throw new Error("Stop method must be implemented"); }
+        reset() { throw new Error("Reset method must be implemented"); }
+        draw() { throw new Error("Draw method must be implemented"); }
+    }
+    
+    /**
+     * Manages the Fourier Series visualization.
+     */
+    class FourierVisualizer extends Visualizer {
+        constructor(config) {
+            super();
+            this.canvas = document.getElementById(config.canvasId);
+            this.ctx = this.canvas.getContext('2d');
+            this.size = { width: 800, height: 500 };
+            this.canvas.width = this.size.width;
+            this.canvas.height = this.size.height;
+
+            // DOM Elements
+            this.sliders = {
+                terms: document.getElementById(config.termsSliderId),
+                speed: document.getElementById(config.speedSliderId),
+            };
+            this.displays = {
+                terms: document.getElementById(config.termsDisplayId),
+                speed: document.getElementById(config.speedDisplayId),
+            };
+            this.waveSelect = document.getElementById(config.waveSelectId);
+            this.buttons = {
+                startPause: document.getElementById(config.startPauseButtonId),
+                reset: document.getElementById(config.resetButtonId),
+            };
+
+            // State
+            this.time = 0;
+            this.wave = [];
+            this.settings = { terms: 1, speed: 1, waveType: 'square' };
+
+            this.setupControls();
+            this.reset();
+        }
+
+        setupControls() {
+            this.sliders.terms.addEventListener('input', (e) => this.updateSetting('terms', parseInt(e.target.value)));
+            this.sliders.speed.addEventListener('input', (e) => this.updateSetting('speed', parseFloat(e.target.value)));
+            this.waveSelect.addEventListener('change', (e) => this.updateSetting('waveType', e.target.value));
+
+            this.buttons.startPause.addEventListener('click', () => this.togglePause());
+            this.buttons.reset.addEventListener('click', () => this.reset());
+        }
+
+        updateSetting(key, value) {
+            this.settings[key] = value;
+            this.displays.terms.textContent = this.settings.terms;
+            this.displays.speed.textContent = `${this.settings.speed.toFixed(1)}x`;
+            
+            if (key === 'terms' || key === 'waveType') {
+                this.reset(false); // Soft reset, keep animation running if it is
+            }
+        }
+        
+        togglePause() {
+            this.isRunning = !this.isRunning;
+            if (this.isRunning) {
+                this.buttons.startPause.textContent = 'Pause';
+                this.animate();
+            } else {
+                this.buttons.startPause.textContent = 'Start';
+                this.stopAnimation();
+            }
+        }
+        
+        start() {
+            // Called by App controller, does nothing by default
+            this.reset();
+        }
+
+        stop() {
+            // Called by App controller when view is hidden
+            if (this.isRunning) {
+                this.togglePause();
+            }
+        }
+
+        stopAnimation() {
+            if (this.animationFrameId) {
+                cancelAnimationFrame(this.animationFrameId);
+                this.animationFrameId = null;
+            }
+        }
+
+        reset(hardReset = true) {
+            this.stopAnimation();
+            this.time = 0;
+            this.wave = [];
+            
+            if (hardReset) {
+                this.isRunning = false;
+                this.buttons.startPause.textContent = 'Start';
+            }
+            
+            this.settings.terms = parseInt(this.sliders.terms.value);
+            this.settings.speed = parseFloat(this.sliders.speed.value);
+            this.settings.waveType = this.waveSelect.value;
+            this.displays.terms.textContent = this.settings.terms;
+            this.displays.speed.textContent = `${this.settings.speed.toFixed(1)}x`;
+            
+            this.draw();
+
+            if (this.isRunning) {
+                this.animate();
+            }
+        }
+
+        animate() {
+            this.time += 0.02 * this.settings.speed;
+            this.draw();
+            this.animationFrameId = requestAnimationFrame(() => this.animate());
+        }
+
+        draw() {
+            this.ctx.fillStyle = '#fff';
+            this.ctx.fillRect(0, 0, this.size.width, this.size.height);
+
+            const waveStartX = 450;
+            const amplitude = 100;
+            const startX = 200;
+            const startY = 250;
+
+            let x = startX;
+            let y = startY;
+
+            for (let i = 0; i < this.settings.terms; i++) {
+                const prevX = x;
+                const prevY = y;
+                
+                let k, radius;
+                
+                switch(this.settings.waveType) {
+                    case 'sawtooth':
+                        k = i + 1;
+                        radius = amplitude * (2 / (k * Math.PI));
+                        if(k % 2 === 0) radius *= -1;
+                        break;
+                    case 'triangle':
+                        k = 2 * i + 1;
+                        radius = amplitude * (8 / (Math.pow(k * Math.PI, 2)));
+                        if ((k - 1) / 2 % 2 !== 0) radius *= -1;
+                        break;
+                    case 'square':
+                    default:
+                        k = 2 * i + 1;
+                        radius = amplitude * (4 / (k * Math.PI));
+                        break;
+                }
+                
+                const angle = k * this.time;
+                x += radius * Math.cos(angle);
+                y += radius * Math.sin(angle);
+
+                this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.2)';
+                this.ctx.lineWidth = 1;
+                this.ctx.beginPath();
+                this.ctx.arc(prevX, prevY, Math.abs(radius), 0, 2 * Math.PI);
+                this.ctx.stroke();
+
+                this.ctx.strokeStyle = 'rgba(0, 0, 0, 0.7)';
+                this.ctx.lineWidth = 2;
+                this.ctx.beginPath();
+                this.ctx.moveTo(prevX, prevY);
+                this.ctx.lineTo(x, y);
+                this.ctx.stroke();
+            }
+
+            if (this.isRunning) {
+                this.wave.unshift(y);
+            }
+            if (this.wave.length > (this.size.width - waveStartX)) {
+                this.wave.pop();
+            }
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(waveStartX, this.wave[0] || y);
+            this.ctx.strokeStyle = '#007bff';
+            this.ctx.lineWidth = 3;
+            for (let i = 1; i < this.wave.length; i++) {
+                this.ctx.lineTo(waveStartX + i, this.wave[i]);
+            }
+            this.ctx.stroke();
+            
+            this.ctx.beginPath();
+            this.ctx.moveTo(x, y);
+            this.ctx.lineTo(waveStartX, y);
+            this.ctx.strokeStyle = 'rgba(255, 0, 0, 0.5)';
+            this.ctx.lineWidth = 1;
+            this.ctx.stroke();
+        }
+    }
+    
+    /**
+     * Manages the Galton Board simulation.
+     */
+    class GaltonBoard extends Visualizer {
+        constructor(config) {
+            super();
+            this.canvas = document.getElementById(config.canvasId);
+            this.ctx = this.canvas.getContext('2d');
+            this.size = { width: 800, height: 600 };
+            this.canvas.width = this.size.width;
+            this.canvas.height = this.size.height;
+            
+            this.elements = {
+                sliders: {
+                    levels: document.getElementById(config.levelsSliderId),
+                    balls: document.getElementById(config.ballsSliderId),
+                    speed: document.getElementById(config.speedSliderId),
+                    bias: document.getElementById(config.biasSliderId),
+                },
+                displays: {
+                    levels: document.getElementById(config.levelsDisplayId),
+                    balls: document.getElementById(config.ballsDisplayId),
+                    speed: document.getElementById(config.speedDisplayId),
+                    bias: document.getElementById(config.biasDisplayId),
+                    ballCount: document.getElementById(config.ballCountId),
+                },
+                buttons: {
+                    startPause: document.getElementById(config.startPauseButtonId),
+                    reset: document.getElementById(config.resetButtonId),
+                },
+            };
+
+            this.pegRadius = 5;
+            this.ballRadius = 4.5;
+            this.maxBallsInSim = 200;
+
+            this.pegs = [];
+            this.activeBalls = [];
+            this.bins = [];
+            this.ballsDropped = 0;
+            this.ballQueue = 0;
+            this.ballDropCounter = 0;
+
+            this.settings = {};
+
+            this.setupControls();
+            this.reset();
+        }
+
+        setupControls() {
+            Object.keys(this.elements.sliders).forEach(key => {
+                this.elements.sliders[key].addEventListener('input', () => {
+                    this.updateSettings();
+                    this.reset();
+                });
+            });
+            this.elements.buttons.startPause.addEventListener('click', () => this.togglePause());
+            this.elements.buttons.reset.addEventListener('click', () => this.reset());
+        }
+
+        updateSettings() {
+            this.settings.levels = parseInt(this.elements.sliders.levels.value);
+            this.settings.totalBalls = parseInt(this.elements.sliders.balls.value);
+            this.settings.dropSpeed = parseInt(this.elements.sliders.speed.value);
+            this.settings.bias = parseFloat(this.elements.sliders.bias.value);
+
+            this.elements.displays.levels.textContent = this.settings.levels;
+            this.elements.displays.balls.textContent = this.settings.totalBalls;
+            this.elements.displays.speed.textContent = this.settings.dropSpeed;
+            this.elements.displays.bias.textContent = this.settings.bias.toFixed(2);
+        }
+
+        togglePause() {
+            this.isRunning = !this.isRunning;
+            if (this.isRunning) {
+                if (this.ballsDropped === 0) { // First start
+                    this.ballQueue = this.settings.totalBalls;
+                }
+                this.elements.buttons.startPause.textContent = 'Pause';
+                this.animate();
+            } else {
+                this.elements.buttons.startPause.textContent = 'Resume';
+                this.stopAnimation();
+            }
+        }
+
+        start() { this.reset(); }
+        stop() { if (this.isRunning) this.togglePause(); }
+        stopAnimation() {
+            if (this.animationFrameId) {
+                cancelAnimationFrame(this.animationFrameId);
+                this.animationFrameId = null;
+            }
+        }
+
+        reset() {
+            this.stopAnimation();
+            this.isRunning = false;
+            this.activeBalls = [];
+            this.ballQueue = 0;
+            this.ballsDropped = 0;
+            this.elements.buttons.startPause.textContent = 'Start';
+            this.updateSettings();
+            this.elements.displays.ballCount.textContent = `0 / ${this.settings.totalBalls}`;
+            this.bins = new Array(this.settings.levels + 1).fill(0);
+            this.setupEnvironment();
+            this.draw();
+        }
+
+        setupEnvironment() {
+            this.pegs = [];
+            const horizontalSpacing = 40;
+            const verticalSpacing = 35;
+            const topOffset = 80;
+
+            for (let row = 0; row < this.settings.levels; row++) {
+                const numPegsInRow = row + 1;
+                const totalWidthForRow = (numPegsInRow - 1) * horizontalSpacing;
+                const startX = (this.size.width - totalWidthForRow) / 2;
+                for (let col = 0; col < numPegsInRow; col++) {
+                    this.pegs.push({
+                        x: startX + col * horizontalSpacing,
+                        y: topOffset + row * verticalSpacing,
+                        row: row,
+                        col: col
+                    });
+                }
+            }
+        }
+        
+        addBall() {
+            if (this.ballQueue <= 0) return;
+            this.ballQueue--;
+            
+            const startX = this.size.width / 2 + (Math.random() - 0.5) * 5;
+            let currentPeg = { x: startX, y: 10 };
+            let pegColIndex = 0;
+
+            const path = [currentPeg];
+
+            for (let row = 0; row < this.settings.levels; row++) {
+                const targetPeg = this.pegs.find(p => p.row === row && p.col === pegColIndex);
+                path.push(targetPeg);
+                if (Math.random() < this.settings.bias) {
+                    pegColIndex++;
+                }
+            }
+            
+            const binWidth = this.size.width / this.bins.length;
+            const finalX = (pegColIndex * binWidth) + (binWidth / 2);
+            const lastPegY = this.pegs[this.pegs.length-1].y;
+            
+            path.push({ x: finalX, y: lastPegY + 50});
+            path.push({ x: finalX, y: this.size.height });
+
+            this.activeBalls.push({ path, pathIndex: 1, x: path[0].x, y: path[0].y, speed: 3 + Math.random() * 2 });
+        }
+        
+        draw() {
+            this.ctx.fillStyle = '#fff';
+            this.ctx.fillRect(0, 0, this.size.width, this.size.height);
+
+            this.ctx.fillStyle = '#333';
+            this.pegs.forEach(peg => {
+                this.ctx.beginPath();
+                this.ctx.arc(peg.x, peg.y, this.pegRadius, 0, 2 * Math.PI);
+                this.ctx.fill();
+            });
+
+            const binWidth = this.size.width / this.bins.length;
+            const binWallHeight = 150;
+            const binBottomY = this.size.height - binWallHeight;
+            this.ctx.strokeStyle = '#aaa';
+            this.ctx.lineWidth = 2;
+            for (let i = 0; i <= this.bins.length; i++) {
+                const x = i * binWidth;
+                this.ctx.beginPath();
+                this.ctx.moveTo(x, binBottomY);
+                this.ctx.lineTo(x, this.size.height);
+                this.ctx.stroke();
+            }
+            
+            this.ctx.save();
+            this.ctx.translate(this.size.width / 2, 35);
+            this.ctx.strokeStyle = '#aaa'; this.ctx.lineWidth = 4;
+            this.ctx.beginPath(); this.ctx.moveTo(-60, 0); this.ctx.lineTo(-10, 0);
+            this.ctx.lineTo(0, 20); this.ctx.lineTo(10, 0); this.ctx.lineTo(60, 0);
+            this.ctx.stroke(); this.ctx.restore();
+
+            this.ctx.fillStyle = 'rgba(0, 123, 255, 0.8)';
+            this.activeBalls.forEach(ball => {
+                this.ctx.beginPath();
+                this.ctx.arc(ball.x, ball.y, this.ballRadius, 0, 2 * Math.PI);
+                this.ctx.fill();
+            });
+
+            if (this.ballsDropped > 0) {
+                const maxBinHeight = Math.max(...this.bins, 1);
+                const binHeightScale = 140 / maxBinHeight;
+                this.ctx.fillStyle = 'rgba(0, 123, 255, 0.7)';
+                this.ctx.strokeStyle = '#0056b3'; this.ctx.lineWidth = 1;
+                for (let i = 0; i < this.bins.length; i++) {
+                    const binHeight = this.bins[i] * binHeightScale;
+                    if (binHeight === 0) continue;
+                    const x = i * binWidth;
+                    const y = this.size.height - binHeight;
+                    this.ctx.fillRect(x, y, binWidth, binHeight);
+                    this.ctx.strokeRect(x, y, binWidth, binHeight);
+                }
+            }
+        }
+        
+        update() {
+            this.ballDropCounter++;
+            if (this.ballQueue > 0 && this.activeBalls.length < this.maxBallsInSim && this.ballDropCounter % (11 - this.settings.dropSpeed) === 0) {
+                this.addBall();
+            }
+
+            for (let i = this.activeBalls.length - 1; i >= 0; i--) {
+                const ball = this.activeBalls[i];
+                const target = ball.path[ball.pathIndex];
+                const dx = target.x - ball.x, dy = target.y - ball.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                
+                if (dist < ball.speed) {
+                    ball.pathIndex++;
+                    if (ball.pathIndex >= ball.path.length) {
+                        const binWidth = this.size.width / this.bins.length;
+                        let binIndex = Math.floor(ball.x / binWidth);
+                        binIndex = Math.max(0, Math.min(this.bins.length - 1, binIndex));
+                        
+                        this.bins[binIndex]++;
+                        this.activeBalls.splice(i, 1);
+                        this.ballsDropped++;
+                        this.elements.displays.ballCount.textContent = `${this.ballsDropped} / ${this.settings.totalBalls}`;
+                    }
+                } else {
+                    ball.x += (dx / dist) * ball.speed;
+                    ball.y += (dy / dist) * ball.speed;
+                }
+            }
+        }
+        
+        animate() {
+            this.update();
+            this.draw();
+
+            if (this.ballQueue > 0 || this.activeBalls.length > 0) {
+                this.animationFrameId = requestAnimationFrame(() => this.animate());
+            } else {
+                this.isRunning = false;
+                this.elements.buttons.startPause.textContent = 'Start';
+                this.animationFrameId = null;
+            }
+        }
+    }
+    
+    /**
+     * Draws a recursive fractal tree. This is a static visualization.
+     */
+    class FractalTree extends Visualizer {
+        constructor(config) {
+            super();
+            this.canvas = document.getElementById(config.canvasId);
+            this.ctx = this.canvas.getContext('2d');
+            this.size = { width: 800, height: 600 };
+            this.canvas.width = this.size.width;
+            this.canvas.height = this.size.height;
+            
+            this.sliders = {
+                angle: document.getElementById(config.angleSliderId),
+                depth: document.getElementById(config.depthSliderId),
+                shrink: document.getElementById(config.shrinkSliderId),
+                variance: document.getElementById(config.varianceSliderId),
+            };
+            this.displays = {
+                angle: document.getElementById(config.angleDisplayId),
+                depth: document.getElementById(config.depthDisplayId),
+                shrink: document.getElementById(config.shrinkDisplayId),
+                variance: document.getElementById(config.varianceDisplayId),
+            };
+
+            this.settings = {};
+            this.setupControls();
+        }
+
+        setupControls() {
+            Object.values(this.sliders).forEach(slider => slider.addEventListener('input', () => this.draw()));
+        }
+
+        start() { this.draw(); }
+        stop() { /* No animation to stop */ }
+        reset() { /* Static, no reset needed */ }
+
+        draw() {
+            this.settings.angle = parseFloat(this.sliders.angle.value);
+            this.settings.depth = parseInt(this.sliders.depth.value);
+            this.settings.shrink = parseFloat(this.sliders.shrink.value);
+            this.settings.variance = parseFloat(this.sliders.variance.value);
+
+            this.displays.angle.textContent = `${this.settings.angle.toFixed(0)}°`;
+            this.displays.depth.textContent = this.settings.depth;
+            this.displays.shrink.textContent = this.settings.shrink.toFixed(2);
+            this.displays.variance.textContent = this.settings.variance.toFixed(2);
+            
+            this.ctx.fillStyle = '#fff';
+            this.ctx.fillRect(0, 0, this.size.width, this.size.height);
+            this.ctx.strokeStyle = '#333';
+            this.ctx.lineWidth = 2;
+            
+            this.branch(this.size.width / 2, this.size.height, 120, -Math.PI / 2, this.settings.depth);
+        }
+
+        branch(x1, y1, len, angle, depth) {
+            if (depth === 0) return;
+
+            const x2 = x1 + len * Math.cos(angle);
+            const y2 = y1 + len * Math.sin(angle);
+
+            this.ctx.beginPath();
+            this.ctx.moveTo(x1, y1);
+            this.ctx.lineTo(x2, y2);
+            this.ctx.stroke();
+
+            const angleRad = (this.settings.angle * Math.PI) / 180;
+            const rand = (v) => 1 - v + Math.random() * 2 * v;
+
+            this.branch(x2, y2, len * this.settings.shrink * rand(this.settings.variance/2), angle - angleRad * rand(this.settings.variance), depth - 1);
+            this.branch(x2, y2, len * this.settings.shrink * rand(this.settings.variance/2), angle + angleRad * rand(this.settings.variance), depth - 1);
+        }
+    }
+    
+    /**
+     * Draws Lissajous curves.
+     */
+    class LissajousCurve extends Visualizer {
+        constructor(config) {
+            super();
+            this.canvas = document.getElementById(config.canvasId);
+            this.ctx = this.canvas.getContext('2d');
+            this.size = { width: 500, height: 500 };
+            this.canvas.width = this.size.width;
+            this.canvas.height = this.size.height;
+            
+            this.elements = {
+                sliders: {
+                    freqA: document.getElementById(config.freqASliderId),
+                    freqB: document.getElementById(config.freqBSliderId),
+                    phase: document.getElementById(config.phaseSliderId),
+                    speed: document.getElementById(config.speedSliderId),
+                },
+                displays: {
+                    freqA: document.getElementById(config.freqADisplayId),
+                    freqB: document.getElementById(config.freqBDisplayId),
+                    phase: document.getElementById(config.phaseDisplayId),
+                    speed: document.getElementById(config.speedDisplayId),
+                },
+                buttons: {
+                    startPause: document.getElementById(config.startPauseButtonId),
+                    reset: document.getElementById(config.resetButtonId),
+                },
+            };
+
+            this.time = 0;
+            this.settings = {};
+            this.setupControls();
+            this.reset();
+        }
+
+        setupControls() {
+            Object.values(this.elements.sliders).forEach(slider => slider.addEventListener('input', () => this.updateSettings()));
+            this.elements.buttons.startPause.addEventListener('click', () => this.togglePause());
+            this.elements.buttons.reset.addEventListener('click', () => this.reset());
+        }
+
+        updateSettings(fromReset = false) {
+            this.settings.a = parseInt(this.elements.sliders.freqA.value);
+            this.settings.b = parseInt(this.elements.sliders.freqB.value);
+            this.settings.phase = parseFloat(this.elements.sliders.phase.value);
+            this.settings.speed = parseFloat(this.elements.sliders.speed.value);
+
+            this.elements.displays.freqA.textContent = this.settings.a;
+            this.elements.displays.freqB.textContent = this.settings.b;
+            this.elements.displays.phase.textContent = `${this.settings.phase.toFixed(2)} π`;
+            this.elements.displays.speed.textContent = `${this.settings.speed.toFixed(1)}x`;
+            
+            if(!fromReset) this.reset(false);
+        }
+
+        togglePause() {
+            this.isRunning = !this.isRunning;
+            this.elements.buttons.startPause.textContent = this.isRunning ? 'Pause' : 'Start';
+            if (this.isRunning) this.animate(); else this.stopAnimation();
+        }
+
+        start() { this.reset(); }
+        stop() { if (this.isRunning) this.togglePause(); }
+        stopAnimation() {
+            if (this.animationFrameId) {
+                cancelAnimationFrame(this.animationFrameId);
+                this.animationFrameId = null;
+            }
+        }
+
+        reset(hardReset = true) {
+            this.stopAnimation();
+            this.time = 0;
+            if (hardReset) {
+                this.isRunning = false;
+                this.elements.buttons.startPause.textContent = 'Start';
+            }
+            this.updateSettings(true);
+            this.draw();
+            if (this.isRunning) this.animate();
+        }
+
+        animate() {
+            if (this.time < 2 * Math.PI) {
+                this.time += 0.01 * this.settings.speed;
+            } else {
+                 this.time = 2 * Math.PI; // Stop when complete
+            }
+            this.draw();
+            if(this.time < 2 * Math.PI) {
+                this.animationFrameId = requestAnimationFrame(() => this.animate());
+            } else {
+                 this.isRunning = false;
+                 this.elements.buttons.startPause.textContent = 'Start';
+            }
+        }
+
+        draw() {
+            this.ctx.fillStyle = '#fff';
+            this.ctx.fillRect(0, 0, this.size.width, this.size.height);
+            const centerX = this.size.width / 2;
+            const centerY = this.size.height / 2;
+            const radius = this.size.width / 2 - 20;
+
+            this.ctx.beginPath();
+            this.ctx.strokeStyle = '#007bff';
+            this.ctx.lineWidth = 2;
+
+            for (let t = 0; t <= this.time; t += 0.005) {
+                const x = centerX + radius * Math.sin(this.settings.a * t + this.settings.phase * Math.PI);
+                const y = centerY + radius * Math.sin(this.settings.b * t);
+                if (t === 0) this.ctx.moveTo(x, y); else this.ctx.lineTo(x, y);
+            }
+            this.ctx.stroke();
+        }
+    }
+    
+    /**
+     * Approximates Pi using the Monte Carlo method.
+     */
+    class PiApproximation extends Visualizer {
+        constructor(config) {
+            super();
+            this.canvas = document.getElementById(config.canvasId);
+            this.ctx = this.canvas.getContext('2d');
+            this.size = { width: 500, height: 500 };
+            this.canvas.width = this.size.width;
+            this.canvas.height = this.size.height;
+            
+            this.elements = {
+                slider: document.getElementById(config.speedSliderId),
+                speedDisplay: document.getElementById(config.speedDisplayId),
+                piDisplay: document.getElementById(config.piDisplayId),
+                pointsDisplay: document.getElementById(config.pointsDisplayId),
+                buttons: {
+                    startPause: document.getElementById(config.startPauseButtonId),
+                    reset: document.getElementById(config.resetButtonId),
+                },
+            };
+            
+            this.total = 0;
+            this.inCircle = 0;
+            this.settings = { pointsPerFrame: 50 };
+            this.setupControls();
+            this.reset();
+        }
+
+        setupControls() {
+            this.elements.slider.addEventListener('input', (e) => {
+                this.settings.pointsPerFrame = parseInt(e.target.value);
+                this.elements.speedDisplay.textContent = this.settings.pointsPerFrame;
+            });
+            this.elements.buttons.startPause.addEventListener('click', () => this.togglePause());
+            this.elements.buttons.reset.addEventListener('click', () => this.reset());
+        }
+
+        togglePause() {
+            this.isRunning = !this.isRunning;
+            this.elements.buttons.startPause.textContent = this.isRunning ? 'Pause' : 'Resume';
+            if (this.isRunning) this.animate(); else this.stopAnimation();
+        }
+        
+        start() { this.reset(); }
+        stop() { if (this.isRunning) this.togglePause(); }
+        stopAnimation() {
+            if (this.animationFrameId) {
+                cancelAnimationFrame(this.animationFrameId);
+                this.animationFrameId = null;
+            }
+        }
+        
+        reset() {
+            this.stopAnimation();
+            this.isRunning = false;
+            this.elements.buttons.startPause.textContent = 'Start';
+            this.total = 0;
+            this.inCircle = 0;
+            this.settings.pointsPerFrame = parseInt(this.elements.slider.value);
+            this.elements.speedDisplay.textContent = this.settings.pointsPerFrame;
+            this.updateDisplays();
+            this.drawBackground();
+        }
+        
+        drawBackground() {
+            this.ctx.fillStyle = '#fff';
+            this.ctx.fillRect(0, 0, this.size.width, this.size.height);
+            this.ctx.strokeStyle = '#ccc'; this.ctx.lineWidth = 2;
+            this.ctx.strokeRect(0, 0, this.size.width, this.size.height);
+            this.ctx.strokeStyle = '#aaa';
+            this.ctx.beginPath();
+            this.ctx.arc(this.size.width / 2, this.size.height / 2, this.size.width / 2, 0, 2 * Math.PI);
+            this.ctx.stroke();
+        }
+
+        updateDisplays() {
+            const pi = this.total === 0 ? 0 : 4 * (this.inCircle / this.total);
+            this.elements.piDisplay.textContent = `π ≈ ${pi.toFixed(6)}`;
+            this.elements.pointsDisplay.textContent = `Points: ${this.inCircle} / ${this.total}`;
+        }
+        
+        animate() {
+            const radius = this.size.width / 2;
+            const center = this.size.width / 2;
+
+            for (let i = 0; i < this.settings.pointsPerFrame; i++) {
+                const x = Math.random() * this.size.width;
+                const y = Math.random() * this.size.height;
+                const dx = x - center;
+                const dy = y - center;
+
+                if (dx * dx + dy * dy < radius * radius) {
+                    this.inCircle++;
+                    this.ctx.fillStyle = 'rgba(0, 123, 255, 0.5)';
+                } else {
+                    this.ctx.fillStyle = 'rgba(255, 0, 0, 0.5)';
+                }
+                
+                this.ctx.beginPath();
+                this.ctx.arc(x, y, 2, 0, 2 * Math.PI);
+                this.ctx.fill();
+                this.total++;
+            }
+            
+            this.updateDisplays();
+            this.animationFrameId = requestAnimationFrame(() => this.animate());
+        }
+    }
+
+    /**
+     * Manages a Matter.js physics simulation.
+     */
+    class PhysicsSim extends Visualizer {
+        constructor(config) {
+            super();
+            if (typeof Matter === 'undefined') { console.error('Matter.js is not loaded!'); return; }
+            this.canvas = document.getElementById(config.canvasId);
+            this.size = { width: 800, height: 600 };
+            
+            this.elements = {
+                sliders: {
+                    gravityX: document.getElementById(config.gravityXSliderId),
+                    gravityY: document.getElementById(config.gravityYSliderId),
+                    friction: document.getElementById(config.frictionSliderId),
+                    restitution: document.getElementById(config.restitutionSliderId),
+                },
+                displays: {
+                    gravityX: document.getElementById(config.gravityXDisplayId),
+                    gravityY: document.getElementById(config.gravityYDisplayId),
+                    friction: document.getElementById(config.frictionDisplayId),
+                    restitution: document.getElementById(config.restitutionDisplayId),
+                },
+                shapeSelect: document.getElementById(config.shapeSelectId),
+                buttons: {
+                    addShape: document.getElementById(config.addShapeButtonId),
+                    reset: document.getElementById(config.resetButtonId),
+                },
+            };
+
+            this.engine = Matter.Engine.create();
+            this.world = this.engine.world;
+            this.render = Matter.Render.create({
+                canvas: this.canvas, engine: this.engine,
+                options: { width: this.size.width, height: this.size.height, wireframes: false, background: '#fff' }
+            });
+            this.runner = Matter.Runner.create();
+            
+            this.setupControls();
+            this.reset();
+        }
+
+        setupControls() {
+            Object.keys(this.elements.sliders).forEach(key => {
+                this.elements.sliders[key].addEventListener('input', () => this.updateSettings());
+            });
+            this.elements.buttons.addShape.addEventListener('click', () => this.addShape());
+            this.elements.buttons.reset.addEventListener('click', () => this.reset());
+        }
+
+        updateSettings() {
+            const gx = parseFloat(this.elements.sliders.gravityX.value);
+            const gy = parseFloat(this.elements.sliders.gravityY.value);
+            this.engine.world.gravity.x = gx;
+            this.engine.world.gravity.y = gy;
+            this.elements.displays.gravityX.textContent = gx.toFixed(1);
+            this.elements.displays.gravityY.textContent = gy.toFixed(1);
+
+            this.elements.displays.friction.textContent = parseFloat(this.elements.sliders.friction.value).toFixed(2);
+            this.elements.displays.restitution.textContent = parseFloat(this.elements.sliders.restitution.value).toFixed(2);
+        }
+        
+        start() {
+            this.reset();
+            Matter.Runner.run(this.runner, this.engine);
+            Matter.Render.run(this.render);
+        }
+
+        stop() {
+            Matter.Runner.stop(this.runner);
+            Matter.Render.stop(this.render);
+        }
+        
+        reset() {
+            Matter.World.clear(this.world);
+            Matter.Engine.clear(this.engine);
+            this.updateSettings();
+            
+            const wallOptions = { isStatic: true, render: { fillStyle: '#333' } };
+            Matter.Composite.add(this.world, [
+                Matter.Bodies.rectangle(this.size.width / 2, this.size.height, this.size.width, 50, wallOptions),
+                Matter.Bodies.rectangle(0, this.size.height / 2, 50, this.size.height, wallOptions),
+                Matter.Bodies.rectangle(this.size.width, this.size.height / 2, 50, this.size.height, wallOptions),
+                Matter.Bodies.rectangle(this.size.width / 2, 0, this.size.width, 50, wallOptions)
+            ]);
+        }
+        
+        addShape() {
+            const x = this.size.width / 2 + (Math.random() - 0.5) * 200;
+            const shapeType = this.elements.shapeSelect.value;
+            const options = {
+                friction: parseFloat(this.elements.sliders.friction.value),
+                restitution: parseFloat(this.elements.sliders.restitution.value),
+            };
+            let body;
+            
+            switch(shapeType) {
+                case 'circle':
+                    body = Matter.Bodies.circle(x, 50, Math.random() * 25 + 10, options);
+                    break;
+                case 'polygon':
+                    body = Matter.Bodies.polygon(x, 50, Math.floor(Math.random() * 4) + 3, Math.random() * 30 + 15, options);
+                    break;
+                case 'box':
+                default:
+                    body = Matter.Bodies.rectangle(x, 50, Math.random() * 50 + 20, Math.random() * 50 + 20, options);
+                    break;
+            }
+            Matter.Composite.add(this.world, body);
+        }
+    }
+
+
+    /**
+     * Main application class to handle routing and view management.
+     */
+    class App {
+        constructor() {
+            this.views = {
+                home: document.getElementById('home-view'),
+                fourier: document.getElementById('fourier-view'),
+                galton: document.getElementById('galton-view'),
+                fractal: document.getElementById('fractal-view'),
+                lissajous: document.getElementById('lissajous-view'),
+                pi: document.getElementById('pi-view'),
+                physics: document.getElementById('physics-view'),
+            };
+            this.simulations = {};
+            this.currentView = null;
+
+            document.addEventListener('click', (e) => {
+                const link = e.target.closest('a[data-view]');
+                if (link) {
+                    e.preventDefault();
+                    this.showView(link.dataset.view);
+                }
+            });
+
+            this.showView('home'); // Initial page load
+        }
+
+        showView(viewId) {
+            if (this.currentView && this.simulations[this.currentView]) {
+                this.simulations[this.currentView].stop();
+            }
+            
+            for (const id in this.views) {
+                if(this.views[id]) this.views[id].classList.add('hidden');
+            }
+
+            const activeView = this.views[viewId];
+            if (activeView) {
+                activeView.classList.remove('hidden');
+                window.scrollTo(0, 0);
+                this.currentView = viewId;
+
+                // Initialize simulation if it doesn't exist, then start it
+                if (!this.simulations[viewId] && viewId !== 'home') {
+                    this.initializeSimulation(viewId);
+                }
+
+                if (this.simulations[viewId]) {
+                    this.simulations[viewId].start();
+                }
+
+            } else { // Fallback to home
+                this.views.home.classList.remove('hidden');
+                this.currentView = 'home';
+            }
+        }
+        
+        initializeSimulation(viewId) {
+            switch(viewId) {
+                case 'fourier':
+                    this.simulations.fourier = new FourierVisualizer({
+                        canvasId: 'fourier-canvas', termsSliderId: 'fourier-terms-slider', termsDisplayId: 'fourier-terms-display',
+                        speedSliderId: 'fourier-speed-slider', speedDisplayId: 'fourier-speed-display', waveSelectId: 'fourier-wave-select',
+                        startPauseButtonId: 'fourier-start-pause', resetButtonId: 'fourier-reset'
+                    });
+                    break;
+                case 'galton':
+                    this.simulations.galton = new GaltonBoard({
+                        canvasId: 'galton-canvas', levelsSliderId: 'galton-levels-slider', levelsDisplayId: 'galton-levels-display',
+                        ballsSliderId: 'galton-balls-slider', ballsDisplayId: 'galton-balls-display',
+                        speedSliderId: 'galton-speed-slider', speedDisplayId: 'galton-speed-display',
+                        biasSliderId: 'galton-bias-slider', biasDisplayId: 'galton-bias-display',
+                        startPauseButtonId: 'galton-start-pause', resetButtonId: 'galton-reset', ballCountId: 'ball-count-display'
+                    });
+                    break;
+                case 'fractal':
+                    this.simulations.fractal = new FractalTree({
+                        canvasId: 'fractal-canvas', angleSliderId: 'fractal-angle-slider', angleDisplayId: 'fractal-angle-display',
+                        depthSliderId: 'fractal-depth-slider', depthDisplayId: 'fractal-depth-display',
+                        shrinkSliderId: 'fractal-shrink-slider', shrinkDisplayId: 'fractal-shrink-display',
+                        varianceSliderId: 'fractal-variance-slider', varianceDisplayId: 'fractal-variance-display'
+                    });
+                    break;
+                case 'lissajous':
+                    this.simulations.lissajous = new LissajousCurve({
+                       canvasId: 'lissajous-canvas', freqASliderId: 'lissajous-freqA-slider', freqADisplayId: 'lissajous-freqA-display',
+                       freqBSliderId: 'lissajous-freqB-slider', freqBDisplayId: 'lissajous-freqB-display',
+                       phaseSliderId: 'lissajous-phase-slider', phaseDisplayId: 'lissajous-phase-display',
+                       speedSliderId: 'lissajous-speed-slider', speedDisplayId: 'lissajous-speed-display',
+                       startPauseButtonId: 'lissajous-start-pause', resetButtonId: 'lissajous-reset'
+                    });
+                    break;
+                case 'pi':
+                    this.simulations.pi = new PiApproximation({
+                       canvasId: 'pi-canvas', startPauseButtonId: 'pi-start-pause', resetButtonId: 'pi-reset',
+                       piDisplayId: 'pi-display', pointsDisplayId: 'pi-points-display',
+                       speedSliderId: 'pi-speed-slider', speedDisplayId: 'pi-speed-display'
+                    });
+                    break;
+                case 'physics':
+                    this.simulations.physics = new PhysicsSim({
+                       canvasId: 'physics-canvas', addShapeButtonId: 'physics-add-shape', resetButtonId: 'physics-reset',
+                       gravityXSliderId: 'physics-gravityX-slider', gravityXDisplayId: 'physics-gravityX-display',
+                       gravityYSliderId: 'physics-gravityY-slider', gravityYDisplayId: 'physics-gravityY-display',
+                       frictionSliderId: 'physics-friction-slider', frictionDisplayId: 'physics-friction-display',
+                       restitutionSliderId: 'physics-restitution-slider', restitutionDisplayId: 'physics-restitution-display',
+                       shapeSelectId: 'physics-shape-select'
+                    });
+                    break;
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        new App();
+    });
+  </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
