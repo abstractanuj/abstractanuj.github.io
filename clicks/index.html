@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photography — Anuj Singh</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Fira+Code:wght@400;500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        .photo-header {
+            padding: 4rem 0 2rem;
+            text-align: center;
+            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 4rem;
+        }
+        .back-link {
+            font-family: var(--font-mono);
+            color: var(--color-text-secondary);
+            text-decoration: none;
+            font-size: var(--fz-sm);
+            display: inline-block;
+            margin-bottom: 2rem;
+            transition: all 0.2s ease;
+        }
+        .back-link:hover {
+            color: var(--color-accent);
+            transform: translateX(-5px);
+        }
+        .photo-header h1 {
+            font-family: var(--font-display);
+            font-size: 3.5rem;
+            font-weight: 700;
+            color: var(--color-text-primary);
+        }
+        
+        .photo-grid {
+            column-count: 3;
+            column-gap: 1.5rem;
+            width: 100%;
+        }
+
+        .photo-grid img {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: 1.5rem;
+            border-radius: var(--border-radius);
+            box-shadow: 0 5px 15px -5px var(--color-shadow);
+            transition: transform 0.4s var(--ease-out-quart), box-shadow 0.4s var(--ease-out-quart), filter 0.4s var(--ease-out-quart);
+            break-inside: avoid;
+        }
+
+        .photo-grid img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 12px 30px -8px var(--color-shadow);
+        }
+
+        @media (max-width: 980px) {
+            .photo-grid {
+                column-count: 2;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            .photo-grid {
+                column-count: 1;
+            }
+             .photo-header {
+                margin-bottom: 2rem;
+            }
+             .photo-header h1 {
+                font-size: 2.5rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="site-wrapper">
+        <header class="photo-header">
+            <a href="index.html" class="back-link">&larr; Back to Home</a>
+            <h1>Photography</h1>
+        </header>
+
+        <main class="main-content">
+            <div class="photo-grid">
+                <img src="https://files.catbox.moe/qeiwri.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/m8hi45.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/cgjmul.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/7b46w3.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/a0ykne.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/swu2p3.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/i8tn74.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/lqmvpu.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/v1ymo2.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/ma3066.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/2oux9r.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/9zwbr9.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/n63znm.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/5434e1.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/gbpxpv.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/0on0c8.jpg" alt="Photograph by Anuj Singh" class="reveal">
+                <img src="https://files.catbox.moe/85hjj2.jpg" alt="Photograph by Anuj Singh" class="reveal">
+            </div>
+        </main>
+        
+        <footer class="site-footer">
+            <p class="credits" style="margin-top: 6rem;">Designed & Built by Anuj Singh</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Custom Cursor ---
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            const interactiveElements = document.querySelectorAll('a, button, .photo-grid img');
+
+            let mouse = { x: -100, y: -100 };
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+
+            const moveCursor = () => {
+                const posX = mouse.x;
+                const posY = mouse.y;
+
+                if (cursorDot) cursorDot.style.left = `${posX}px`;
+                if (cursorDot) cursorDot.style.top = `${posY}px`;
+
+                if (cursorOutline) {
+                    cursorOutline.animate({
+                        left: `${posX}px`,
+                        top: `${posY}px`
+                    }, { duration: 500, fill: 'forwards' });
+                }
+                requestAnimationFrame(moveCursor);
+            };
+            
+            if (window.matchMedia('(pointer: fine)').matches) {
+                moveCursor();
+            }
+
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    if (cursorOutline) cursorOutline.classList.add('hover');
+                });
+                el.addEventListener('mouseleave', () => {
+                    if (cursorOutline) cursorOutline.classList.remove('hover');
+                });
+            });
+
+            // --- Reveal on Scroll ---
+            const revealElements = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, {
+                root: null,
+                threshold: 0.1,
+            });
+
+            revealElements.forEach(el => {
+                revealObserver.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
