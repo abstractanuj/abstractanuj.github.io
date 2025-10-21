@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    document.body.classList.add('cursor-active');
+
     // --- Greeting Text Cycler ---
     const greetings = ['Hello', 'नमस्कार', 'வணக்கம்', 'नमस्ते', 'Hola', 'こんにちは'];
     const greetingEl = document.getElementById('greeting-text');
