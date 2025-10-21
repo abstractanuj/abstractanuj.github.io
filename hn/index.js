@@ -23,6 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- DOM ELEMENTS ---
     const elements = {
         preloader: document.getElementById('preloader'),
+        headerDate: document.getElementById('header-date'),
+        headerTime: document.getElementById('header-time'),
+        headerWeather: document.getElementById('header-weather'),
         grid: document.getElementById('stories-grid'),
         categoryButtons: document.querySelectorAll('.story-categories button'),
         subFilters: document.getElementById('sub-filters'),
@@ -509,9 +512,70 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    // --- HEADER INFO FUNCTIONS ---
+    function updateDate() {
+        const today = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = today.toLocaleDateString('en-US', options).toUpperCase();
+        elements.headerDate.textContent = formattedDate;
+    }
+
+    function updateTime() {
+        const now = new Date();
+        const options = { hour: 'numeric', minute: 'numeric', hour12: true };
+        const formattedTime = now.toLocaleTimeString('en-US', options);
+        elements.headerTime.textContent = `UPDATED ${formattedTime}`;
+    }
+
+    function getWeatherDescription(code) {
+        if (code === 0) return 'Clear Sky';
+        if (code >= 1 && code <= 3) return 'Mainly Clear';
+        if (code >= 45 && code <= 48) return 'Foggy';
+        if (code >= 51 && code <= 67) return 'Rainy';
+        if (code >= 71 && code <= 77) return 'Snowy';
+        if (code >= 80 && code <= 82) return 'Rain Showers';
+        if (code === 95 || code === 96 || code === 99) return 'Thunderstorm';
+        return 'Fair Weather';
+    }
+
+    async function fetchWeather(lat, lon) {
+        try {
+            const response = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
+            if (!response.ok) throw new Error('Weather data not available');
+            const data = await response.json();
+            const weather = data.current_weather;
+            const description = getWeatherDescription(weather.weathercode);
+            const temperature = Math.round(weather.temperature);
+            elements.headerWeather.textContent = `${temperature}°C, ${description.toUpperCase()}`;
+        } catch (error) {
+            console.error("Failed to fetch weather:", error);
+            elements.headerWeather.textContent = 'WEATHER UNAVAILABLE';
+        }
+    }
+
+    async function updateWeather() {
+        try {
+            const geoResponse = await fetch('https://ipapi.co/json/');
+            if (!geoResponse.ok) throw new Error('Could not fetch location data.');
+            const geoData = await geoResponse.json();
+            
+            if (geoData.latitude && geoData.longitude) {
+                fetchWeather(geoData.latitude, geoData.longitude);
+            } else {
+                throw new Error('Location data is incomplete.');
+            }
+        } catch (error) {
+            console.error("Failed to get weather via IP geolocation:", error);
+            elements.headerWeather.textContent = 'WEATHER UNAVAILABLE';
+        }
+    }
 
     // --- INITIALIZATION ---
     function init() {
+        updateDate();
+        updateTime();
+        updateWeather();
+
         updateViewMode(appState.activeCategory);
         fetchStories();
         setupInfiniteScroll();
@@ -533,7 +597,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         elements.commentsLoadMoreBtn.addEventListener('click', loadMainComments);
         elements.overlayCommentsContainer.addEventListener('click', e => {
-            const button = e.target.closest('.load-replies-btn');
+            const button = e.targe.closest('.load-replies-btn');
             if (button) {
                 loadMoreReplies(button);
             }
