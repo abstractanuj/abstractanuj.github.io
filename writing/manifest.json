@@ -1,27 +1,27 @@
 [
   {
-    "file": "knox.html",
-    "title": "Knox mdm is a joke (⁠ﾉ⁠◕⁠ヮ⁠◕⁠)⁠ﾉ⁠*⁠.⁠✧",
-    "date": "2024-01-03",
-    "tags": ["tech", "diy"]
+    "file": "anuga.html",
+    "title": "My experience at Anuga FoodTec",
+    "date": "2024-09-05",
+    "tags": ["packaging", "meta"]
   },
-  {
+ {
+    "file": "atom.html",
+    "title": "Atoms",
+    "date": "2024-03-06",
+    "tags": ["meta", "physics"]
+  },
+ {
     "file": "domestic_tech.html",
     "title": "Why Countries Should Prioritize Domestic Tech",
     "date": "2024-03-03",
     "tags": ["thought"]
   },
-  {
-    "file": "atom.html",
-    "title": "Atoms",
-    "date": "2024-06-03",
-    "tags": ["meta", "physics"]
-  },
-  {
-    "file": "anuga.html",
-    "title": "My experience at Anuga FoodTec",
-    "date": "2024-09-05",
-    "tags": ["packaging", "meta"]
+ {
+    "file": "knox.html",
+    "title": "Knox mdm is a joke (⁠ﾉ⁠◕⁠ヮ⁠◕⁠)⁠ﾉ⁠*⁠.⁠✧",
+    "date": "2024-03-01",
+    "tags": ["tech", "diy"]
   }
-  
+
 ]
