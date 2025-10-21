@@ -3,6 +3,20 @@ document.addEventListener('DOMContentLoaded', async () => {
     const loadingMessage = document.getElementById('loading-message');
     const manifestURL = 'manifest.json';
 
+    // Define a layout pattern for the grid items
+    const layoutClasses = [
+        'grid-item--featured', 
+        'grid-item--standard', 
+        'grid-item--wide', 
+        'grid-item--tall',
+        'grid-item--standard',
+        'grid-item--standard',
+        'grid-item--wide',
+        'grid-item--standard',
+        'grid-item--wide',
+        'grid-item--standard'
+    ];
+
     try {
         const response = await fetch(manifestURL);
         if (!response.ok) {
@@ -11,43 +25,58 @@ document.addEventListener('DOMContentLoaded', async () => {
         const posts = await response.json();
 
         if (posts.length > 0) {
-            const postPromises = posts.map(async (post) => {
-                let snippet = 'Read more...';
-                try {
-                    const postResponse = await fetch(post.file);
-                    if (postResponse.ok) {
-                        const postHTML = await postResponse.text();
-                        const parser = new DOMParser();
-                        const doc = parser.parseFromString(postHTML, 'text/html');
-                        const firstParagraph = doc.querySelector('.post-page-content p');
-                        if (firstParagraph) {
-                            snippet = firstParagraph.textContent.trim();
-                        }
-                    }
-                } catch (e) {
-                    console.error(`Could not fetch snippet for ${post.file}:`, e);
-                }
-
+            const postPromises = posts.map(async (post, index) => {
                 const postElement = document.createElement('a');
-                postElement.className = 'grid-item';
                 postElement.href = post.file;
 
-                const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
-                    year: 'numeric', month: 'long', day: 'numeric'
-                });
+                // Assign a layout class from the pattern
+                const layoutClass = layoutClasses[index % layoutClasses.length] || 'grid-item--standard';
                 
-                const tagsHTML = post.tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
+                // Check if the post has an image
+                if (post.image) {
+                    postElement.className = `grid-item grid-item--image ${layoutClass}`;
+                    postElement.innerHTML = `
+                        <img src="${post.image}" alt="${post.title}">
+                        <div class="image-overlay">
+                            <h2>${post.title}</h2>
+                        </div>
+                    `;
+                } else {
+                    // Regular text-based post
+                    let snippet = 'Read more...';
+                    try {
+                        const postResponse = await fetch(post.file);
+                        if (postResponse.ok) {
+                            const postHTML = await postResponse.text();
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(postHTML, 'text/html');
+                            const firstParagraph = doc.querySelector('.post-page-content p');
+                            if (firstParagraph) {
+                                snippet = firstParagraph.textContent.trim();
+                            }
+                        }
+                    } catch (e) {
+                        console.error(`Could not fetch snippet for ${post.file}:`, e);
+                    }
 
-                postElement.innerHTML = `
-                    <div>
-                        <h2>${post.title}</h2>
-                        <p>${snippet}</p>
-                    </div>
-                    <div class="meta">
-                        <span>${formattedDate}</span>
-                        <div class="tags">${tagsHTML}</div>
-                    </div>
-                `;
+                    postElement.className = `grid-item ${layoutClass}`;
+                    const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    });
+                    const tagsHTML = post.tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
+
+                    postElement.innerHTML = `
+                        <div>
+                            <h2>${post.title}</h2>
+                            <p>${snippet}</p>
+                        </div>
+                        <div class="meta">
+                            <span>${formattedDate}</span>
+                            <div class="tags">${tagsHTML}</div>
+                        </div>
+                    `;
+                }
+                
                 return postElement;
             });
 
@@ -65,17 +94,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (loadingMessage) {
             loadingMessage.style.display = 'none';
         }
-        // Activate cursor after posts are loaded and interactive elements are in the DOM
         activateCursor();
     }
 
-    // --- Custom Cursor Logic ---
     function activateCursor() {
         document.body.classList.add('cursor-active');
-
         const cursorDot = document.querySelector('.cursor-dot');
         const cursorOutline = document.querySelector('.cursor-outline');
-        // Include the newly added grid items in the interactive elements
         const interactiveElements = document.querySelectorAll('a, button');
 
         let mouse = { x: -100, y: -100 };
@@ -88,26 +113,19 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (!cursorDot || !cursorOutline) return;
             const posX = mouse.x;
             const posY = mouse.y;
-
             cursorDot.style.left = `${posX}px`;
             cursorDot.style.top = `${posY}px`;
-
             cursorOutline.animate({
                 left: `${posX}px`,
                 top: `${posY}px`
             }, { duration: 500, fill: 'forwards' });
-
             requestAnimationFrame(moveCursor);
         };
         moveCursor();
 
         interactiveElements.forEach(el => {
-            el.addEventListener('mouseenter', () => {
-                cursorOutline.classList.add('hover');
-            });
-            el.addEventListener('mouseleave', () => {
-                cursorOutline.classList.remove('hover');
-            });
+            el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+            el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
         });
     }
 });
