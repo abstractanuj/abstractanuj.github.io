@@ -18,19 +18,6 @@
     "date": "2024-06-03",
     "tags": ["meta", "physics"]
   },
-   {
-    "file": "pi_day.html",
-    "title": "Today is Pi day!",
-    "date": "2024-03-14",
-    "tags": ["meta","math"]
-  },
-  {
-    "file": "metric_space.html",
-    "title": "Metric Space",
-    "date": "2024-02-05",
-    "tags": ["math"],
-    "image": "https://files.catbox.moe/qeiwri.jpg"
-  },
   {
     "file": "anuga.html",
     "title": "My experience at Anuga FoodTec",
