@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Case for Indigenous Technology — SAREPRNE</title>
+    <link rel="icon" href="https://files.catbox.moe/lhcxja.ico" type="image/x-icon">
+    <link rel="stylesheet" href="writing.css">
+</head>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="site-wrapper">
+        <a href="index.html" class="back-link" style="margin-top: 2rem;">&larr; All Writings</a>
+        <main class="post-page-container">
+            <header class="post-page-header">
+                <h1>The Case for Indigenous Technology</h1>
+                <div class="post-page-meta">
+                    <span>August 11, 2024</span> &bull; <span>#technology, #geopolitics, #privacy</span>
+                </div>
+            </header>
+            <article class="post-page-content">
+                <p>My reasons for supporting indigenous technology are as follows:</p>
+                <ul>
+                    <li>Online platforms can be biased towards their country of origin. News sources from different countries often present the same information through different lenses, as they may favor their own perspectives. Similarly, platforms like Reddit, internet forums, and even Wikipedia may contain biased information that has been influenced by powerful entities. For example, a <a href="https://en.wikipedia.org/wiki/Plutonium" target="_blank" rel="noopener noreferrer">Wikipedia article on Plutonium</a> should ideally only contain scientific information. However, it includes sections on the history of the atomic bomb and the bombings of Hiroshima and Nagasaki, which adds a political and historical dimension that may not be necessary in a scientific article. Moreover, the article only mentions the history of Plutonium in the US and Russia, which is not representative of the global context.</li>
+                    <li>The government of a product's country of origin may exert control over other countries. During the Russian-Ukrainian war, many Western companies halted their services in Russia.</li>
+                    <li>Indigenous products can help protect the personal data of a country's citizens. For instance, domestically produced apps may offer better support, reliability, and functionality than their foreign counterparts.</li>
+                    <li>Generative AI can also be biased towards its country of origin, discriminating against people of different races, languages, and cultures. This can be seen in the case of Google's image generation model, Gemini.</li>
+                    <li>Ad tech pays significantly different rates in developed and developing countries, which can be unfair and exploitative.</li>
+                    <li>Social media platforms controlled by Western companies monitor users' activities closely and collect vast amounts of data from around the world. For example, Facebook has been known to sell user data and track user activity to maximize ad revenue.</li>
+                    <li>Imported hardware can be expensive, whereas indigenous production could potentially lower costs.</li>
+                    <li>There are significant cultural differences between games produced in the West and those made in Asia. Indigenous game development could allow countries to explore their own culture, history, and heritage through interactive games. This would not only generate revenue for the country but also preserve its history for future generations.</li>
+                </ul>
+                <p>In summary, every country should consider developing their own versions of popular products and services, such as:</p>
+                <ol>
+                    <li>Search engines</li>
+                    <li>Video platforms</li>
+                    <li>Online encyclopedias</li>
+                    <li>AI chatbots</li>
+                    <li>Map applications</li>
+                    <li>Social media platforms</li>
+                    <li>Video games</li>
+                    <li>Hardware</li>
+                    <li>Email services</li>
+                    <li>Operating systems, and more.</li>
+                </ol>
+                <p>This could promote cultural preservation, protect personal data, and reduce costs, while reducing the influence of foreign biases and geopolitical tensions.</p>
+                <p><strong>Note:</strong> <em>This article was originally written in a different tone but then changed/experimented using Pi.</em></p>
+            </article>
+        </main>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('cursor-active');
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            const interactiveElements = document.querySelectorAll('a, button');
+
+            let mouse = { x: -100, y: -100 };
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+
+            const moveCursor = () => {
+                if (!cursorDot || !cursorOutline) return;
+                const posX = mouse.x;
+                const posY = mouse.y;
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+                cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: 'forwards' });
+                requestAnimationFrame(moveCursor);
+            };
+            moveCursor();
+
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+            });
+        });
+    </script>
+</body>
+</html>
