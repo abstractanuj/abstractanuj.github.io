@@ -78,13 +78,10 @@
     </style>
 </head>
 <body>
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
-
     <div class="site-wrapper">
         <header class="photo-header">
-            <a href="https://abstractanuj.github.io/" class="back-link">&larr; Back to Home</a>
-            <h1>Clicks</h1>
+            <a href="index.html" class="back-link">&larr; Back to Home</a>
+            <h1>Photography</h1>
         </header>
 
         <main class="main-content">
@@ -110,52 +107,12 @@
         </main>
         
         <footer class="site-footer">
-            <p class="credits" style="margin-top: 6rem;">Shot and Color graded by Anuj</p>
+            <p class="credits" style="margin-top: 6rem;">Designed & Built by Anuj Singh</p>
         </footer>
     </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Custom Cursor ---
-            const cursorDot = document.querySelector('.cursor-dot');
-            const cursorOutline = document.querySelector('.cursor-outline');
-            const interactiveElements = document.querySelectorAll('a, button, .photo-grid img');
-
-            let mouse = { x: -100, y: -100 };
-            window.addEventListener('mousemove', (e) => {
-                mouse.x = e.clientX;
-                mouse.y = e.clientY;
-            });
-
-            const moveCursor = () => {
-                const posX = mouse.x;
-                const posY = mouse.y;
-
-                if (cursorDot) cursorDot.style.left = `${posX}px`;
-                if (cursorDot) cursorDot.style.top = `${posY}px`;
-
-                if (cursorOutline) {
-                    cursorOutline.animate({
-                        left: `${posX}px`,
-                        top: `${posY}px`
-                    }, { duration: 500, fill: 'forwards' });
-                }
-                requestAnimationFrame(moveCursor);
-            };
-            
-            if (window.matchMedia('(pointer: fine)').matches) {
-                moveCursor();
-            }
-
-            interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    if (cursorOutline) cursorOutline.classList.add('hover');
-                });
-                el.addEventListener('mouseleave', () => {
-                    if (cursorOutline) cursorOutline.classList.remove('hover');
-                });
-            });
-
             // --- Reveal on Scroll ---
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
