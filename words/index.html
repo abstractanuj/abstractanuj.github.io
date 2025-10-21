@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Words — Anuj Singh</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Fira+Code:wght@400;500&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="site-wrapper">
+        <header class="words-header">
+            <a href="index.html" class="back-link">&larr; Back to Home</a>
+            <h1>Words</h1>
+        </header>
+
+        <main class="main-content">
+            <div id="words-grid" class="words-grid">
+                <!-- Blog posts will be dynamically inserted here -->
+            </div>
+        </main>
+        
+        <footer class="site-footer">
+            <p class="credits" style="margin-top: 6rem;">Designed & Built by Anuj Singh</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const grid = document.getElementById('words-grid');
+            const manifestURL = 'words/manifest.json';
+
+            try {
+                const response = await fetch(manifestURL);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const posts = await response.json();
+
+                for (const post of posts) {
+                    const postURL = `words/${post.file}`;
+                    let snippet = 'Could not load snippet.';
+
+                    try {
+                        const postResponse = await fetch(postURL);
+                        if(postResponse.ok) {
+                            const postHTML = await postResponse.text();
+                            const parser = new DOMParser();
+                            const doc = parser.parseFromString(postHTML, 'text/html');
+                            const firstParagraph = doc.querySelector('p');
+                            if (firstParagraph) {
+                                snippet = firstParagraph.textContent;
+                            }
+                        }
+                    } catch (e) {
+                        console.error(`Could not fetch snippet for ${post.file}:`, e);
+                    }
+                    
+                    const postElement = document.createElement('article');
+                    postElement.className = 'word-item';
+
+                    const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+                        year: 'numeric', month: 'long', day: 'numeric'
+                    });
+
+                    const tagsHTML = post.tags.map(tag => `<span class="tag">#${tag}</span>`).join('');
+
+                    postElement.innerHTML = `
+                        <h2><a href="${postURL}" target="_blank" rel="noopener noreferrer">${post.title}</a></h2>
+                        <div class="meta">
+                            <span>${formattedDate} at ${post.time}</span>
+                            <div class="tags">${tagsHTML}</div>
+                        </div>
+                        <p class="snippet">${snippet}</p>
+                    `;
+                    grid.appendChild(postElement);
+                }
+
+            } catch (error) {
+                grid.innerHTML = '<p>Could not load blog posts. Please try again later.</p>';
+                console.error('Failed to load blog manifest:', error);
+            }
+        });
+    </script>
+</body>
+</html>
