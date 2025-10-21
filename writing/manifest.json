@@ -1,63 +1,41 @@
 [
   {
-    "file": "undergraduate-thesis.html",
-    "title": "My Undergraduate Thesis: A Glimpse",
-    "date": "2024-07-28",
-    "tags": ["academics", "physics", "thesis"]
+    "file": "knox.html",
+    "title": "Knox mdm is a joke (⁠ﾉ⁠◕⁠ヮ⁠◕⁠)⁠ﾉ⁠*⁠.⁠✧",
+    "date": "2024-01-03",
+    "tags": ["tech", "diy"]
   },
   {
-    "file": "objective-reality.html",
-    "title": "On the Existence of an Objective Reality",
-    "date": "2024-07-21",
-    "tags": ["philosophy", "reality", "metaphysics"]
-  },
-  {
-    "file": "limits-of-science.html",
-    "title": "On the Limits of Science",
-    "date": "2024-07-14",
-    "tags": ["science", "philosophy", "epistemology"],
+    "file": "domestic_tech.html",
+    "title": "Why Countries Should Prioritize Domestic Tech",
+    "date": "2024-03-03",
+    "tags": ["thought"],
     "image": "https://files.catbox.moe/qeiwri.jpg"
   },
   {
-    "file": "purpose-of-life.html",
-    "title": "On the Purpose of Life",
-    "date": "2024-07-07",
-    "tags": ["philosophy", "existentialism", "purpose"]
+    "file": "atoms.html",
+    "title": "Atoms",
+    "date": "2024-06-03",
+    "tags": ["meta", "physics"]
+  },
+   {
+    "file": "pi_day.html",
+    "title": "Today is Pi day!",
+    "date": "2024-03-14",
+    "tags": ["meta","math"]
   },
   {
-    "file": "free-will.html",
-    "title": "On the Problem of Free Will",
-    "date": "2024-06-30",
-    "tags": ["philosophy", "free will", "determinism"]
+    "file": "metric_space.html",
+    "title": "Metric Space",
+    "date": "2024-02-05",
+    "tags": ["math"],
+    "image": "https://files.catbox.moe/qeiwri.jpg"
   },
   {
-    "file": "consciousness.html",
-    "title": "On the Nature of Consciousness",
-    "date": "2024-06-23",
-    "tags": ["consciousness", "philosophy", "neuroscience"]
+    "file": "anuga.html",
+    "title": "My experience at Anuga FoodTec",
+    "date": "2024-09-05",
+    "tags": ["packaging", "meta"]
   },
-  {
-    "file": "math-in-physics.html",
-    "title": "The Unreasonable Effectiveness of Mathematics in Physics",
-    "date": "2024-06-16",
-    "tags": ["physics", "mathematics", "philosophy"]
-  },
-  {
-    "file": "philosophy-of-science.html",
-    "title": "The Philosophy of Science",
-    "date": "2024-06-09",
-    "tags": ["science", "philosophy", "popper", "kuhn"]
-  },
-  {
-    "file": "scientific-method.html",
-    "title": "The Scientific Method",
-    "date": "2024-06-02",
-    "tags": ["science", "philosophy", "epistemology"]
-  },
-  {
-    "file": "introduction.html",
-    "title": "An Introduction",
-    "date": "2024-05-26",
-    "tags": ["meta", "philosophy", "science"]
-  }
+  
 ]
