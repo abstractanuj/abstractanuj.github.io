@@ -1,0 +1,23 @@
+[
+  {
+    "file": "the-art-of-packaging.html",
+    "title": "The Subtle Art of Packaging",
+    "date": "2024-07-20",
+    "time": "11:30 AM",
+    "tags": ["design", "packaging", "branding"]
+  },
+  {
+    "file": "python-for-automation.html",
+    "title": "Python Scripts that Save Hours",
+    "date": "2024-06-15",
+    "time": "09:00 AM",
+    "tags": ["python", "automation", "tech"]
+  },
+  {
+    "file": "six-sigma-in-practice.html",
+    "title": "Six Sigma in Practice: Beyond the Textbook",
+    "date": "2024-05-28",
+    "time": "02:00 PM",
+    "tags": ["six sigma", "logistics", "optimization"]
+  }
+]

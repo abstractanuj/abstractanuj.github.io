@@ -1,0 +1,135 @@
+body {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10pt;
+    color: #828282;
+    background-color: #f6f6ef;
+    margin: 0;
+    padding: 8px;
+}
+
+table {
+    border-spacing: 0px;
+}
+
+td {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10pt;
+    color: #828282;
+}
+
+#hnmain {
+    width: 85%;
+    max-width: 1200px;
+}
+
+.pagetop {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10pt;
+    color: #222222;
+}
+.pagetop a {
+    color: #000000;
+    text-decoration: none;
+}
+.pagetop a:visited {
+    color: #000000;
+}
+.hnname a {
+    color: #ffffff;
+    font-weight: bold;
+    text-decoration: none;
+    margin-right: 1em;
+}
+
+.itemlist .athing {
+    background-color: #f6f6ef;
+}
+
+.title {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 10pt;
+    color: #828282;
+}
+.title a {
+    color: #000000;
+    text-decoration: none;
+}
+.title a:visited {
+    color: #828282;
+}
+.sitebit {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 8pt;
+    color: #828282;
+    margin-left: 0.5em;
+}
+
+.subtext {
+    font-family: Verdana, Geneva, sans-serif;
+    font-size: 7pt;
+    color: #828282;
+}
+.subtext a {
+    color: #828282;
+    text-decoration: underline;
+}
+.subtext a:hover {
+    text-decoration: none;
+}
+.subtext a:visited {
+    color: #828282;
+}
+.subtext .tag {
+    text-decoration: none;
+}
+
+.votearrow {
+    width: 10px;
+    height: 10px;
+    border: 0px;
+    margin: 3px 2px 6px;
+    background: url("data:image/gif;base64,R0lGODlhCgAKAPcAAAAAAIXB1Yi/2IjA14u/14u/2I7B2I7C2Y/C2Y/D2pDE25HF3JLG3ZPG3ZXI3ZXJ3pfL35jM35rO4JzP4J/R4aDS4qHV46LV46PX5KTY5ajZ5anb5qrc56vd56ze6K/g6rDh6rHi67Lj67Pk7LXm7Lbo7Ljp7bnp7brr7rns7rrs7r7u78Dv8MLw8cPx8sTx88by88fy88nz9Mv09dD29tH399T5+Nf6+dn8+t7+/OD+/eH+/eP+/uX+/ukAAAAAAP///yH5BAEAAJkALAAAAAAKAAoABwglwEyCAoEwsWHyKIxYhMKCAw4cSCjQoUJFCgUscMioEIECDx4iNEjRIkN/DhkkZCCRpMuYCRkmZPhwYgQKBgYWbNiQYEOHAQUQLDhQYkOIERY0eGixokWKGg0GBAA7") center center no-repeat;
+    display: block;
+}
+
+#loading-message {
+    padding: 1rem;
+    font-style: italic;
+}
+
+/* Post Page Specific Styles */
+.post-container {
+    padding: 1.5rem;
+}
+
+.post-title {
+    font-size: 18pt;
+    font-weight: bold;
+    color: #000;
+    margin-bottom: 1.5rem;
+}
+.post-meta {
+    margin-bottom: 2rem;
+    font-size: 9pt;
+    border-bottom: 1px solid #e0e0e0;
+    padding-bottom: 1rem;
+}
+.post-back-link {
+    display: inline-block;
+    margin-bottom: 2rem;
+}
+.post-back-link a {
+    color: #828282;
+    text-decoration: underline;
+}
+.post-back-link a:hover {
+    text-decoration: none;
+}
+
+.post-content {
+    color: #000;
+    line-height: 1.6;
+}
+.post-content p {
+    margin: 0 0 1rem 0;
+}
