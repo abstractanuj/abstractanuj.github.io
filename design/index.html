@@ -165,20 +165,17 @@
     </style>
 </head>
 <body>
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
-
     <div class="site-wrapper">
         <header class="design-header">
-            <a href="https://abstractanuj.github.io/" class="back-link">&larr; Back to Home</a>
+            <a href="index.html" class="back-link">&larr; Back to Home</a>
             <h1>CAD Designs & Dielines</h1>
         </header>
 
         <main class="main-content">
 
             <section id="design-1" class="design-project content-section reveal">
-                <h2 class="design-project-title">Hexagonal Fruit Juice (Tetra Pak)</h2>
-                <p class="design-project-description">A compact and functional dispenser carton designed for 200ml of Lychee Juice. The design focuses on structural integrity, efficient material use, and a user-friendly dispensing mechanism via a straw.</p>
+                <h2 class="design-project-title">Dispenser Carton for Mints</h2>
+                <p class="design-project-description">A compact and functional dispenser carton designed for mints or small candies. The design focuses on structural integrity, efficient material use, and a user-friendly dispensing mechanism.</p>
                 <div class="variations-container">
                     <div class="variation-item">
                         <div class="variation-image-wrapper">
@@ -197,7 +194,7 @@
                     </div>
                     <div class="variation-item">
                         <div class="variation-image-wrapper">
-                            <img src="https://files.catbox.moe/5qhwoi.jpg" alt="with Graphics">
+                            <img src="https://files.catbox.moe/5qhwoi.jpg" alt="Dispenser Carton with Graphics">
                         </div>
                         <div class="variation-text">
                             <h3>Graphic</h3>
@@ -208,16 +205,16 @@
             </section>
 
             <section id="design-2" class="design-project content-section reveal">
-                <h2 class="design-project-title">3D Trapezoidal (Prism) Carton</h2>
-                <p class="design-project-description">An innovative Trapezoidal Prism carton structure that explores non-traditional packaging shapes to create a strong shelf presence and a unique experience. It has capacity to hold 200ml of strawberry juice.</p>
+                <h2 class="design-project-title">Hexagonal Carton</h2>
+                <p class="design-project-description">An innovative hexagonal carton structure that explores non-traditional packaging shapes to create a strong shelf presence and a unique unboxing experience.</p>
                 <div class="variations-container">
                      <div class="variation-item">
                         <div class="variation-image-wrapper">
-                            <img src="https://files.catbox.moe/xhepb7.png" alt="Carton Dieline">
+                            <img src="https://files.catbox.moe/xhepb7.png" alt="Hexagonal Carton Dieline">
                         </div>
                         <div class="variation-text">
                             <h3>Dieline</h3>
-                            <p>The structural layout for the unique trapezoidal form.</p>
+                            <p>The structural layout for the unique hexagonal form.</p>
                         </div>
                     </div>
                     <div class="arrow-connector">
@@ -228,11 +225,11 @@
                     </div>
                      <div class="variation-item">
                         <div class="variation-image-wrapper">
-                            <img src="https://files.catbox.moe/7jhws4.jpg" alt="Carton with Graphics">
+                            <img src="https://files.catbox.moe/7jhws4.jpg" alt="Hexagonal Carton with Graphics">
                         </div>
                         <div class="variation-text">
                              <h3>Graphic</h3>
-                            <p>Visual branding applied to the (tetra pak) structure.</p>
+                            <p>Visual branding applied to the hexagonal structure.</p>
                         </div>
                     </div>
                     <div class="arrow-connector">
@@ -243,7 +240,7 @@
                     </div>
                     <div class="variation-item">
                         <div class="variation-image-wrapper">
-                            <img src="https://files.catbox.moe/w62r1p.jpg" alt="Carton Prototype">
+                            <img src="https://files.catbox.moe/w62r1p.jpg" alt="Hexagonal Carton Prototype">
                         </div>
                         <div class="variation-text">
                              <h3>Prototype</h3>
@@ -254,8 +251,8 @@
             </section>
 
             <section id="design-3" class="design-project content-section reveal">
-                <h2 class="design-project-title">D/half cut fruit</h2>
-                <p class="design-project-description">A packaging concept for Juice pack.</p>
+                <h2 class="design-project-title">Cosmetic Product Box</h2>
+                <p class="design-project-description">A premium packaging concept for a cosmetic product. The design emphasizes clean aesthetics and structural simplicity, intended to provide a high-end unboxing experience.</p>
                 <div class="variations-container">
                     <div class="variation-item">
                         <div class="variation-image-wrapper">
@@ -263,7 +260,7 @@
                         </div>
                          <div class="variation-text">
                             <h3>Dieline</h3>
-                            <p>A simple, elegant dieline for a different experience.</p>
+                            <p>A simple, elegant dieline for a luxury product experience.</p>
                         </div>
                     </div>
                 </div>
@@ -271,52 +268,12 @@
         </main>
         
         <footer class="site-footer">
-            <p class="credits" style="margin-top: 6rem;">Designed & Built by Anuj</p>
+            <p class="credits" style="margin-top: 6rem;">Designed & Built by Anuj Singh</p>
         </footer>
     </div>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Custom Cursor ---
-            const cursorDot = document.querySelector('.cursor-dot');
-            const cursorOutline = document.querySelector('.cursor-outline');
-            const interactiveElements = document.querySelectorAll('a, button');
-
-            let mouse = { x: -100, y: -100 };
-            window.addEventListener('mousemove', (e) => {
-                mouse.x = e.clientX;
-                mouse.y = e.clientY;
-            });
-
-            const moveCursor = () => {
-                const posX = mouse.x;
-                const posY = mouse.y;
-
-                if (cursorDot) cursorDot.style.left = `${posX}px`;
-                if (cursorDot) cursorDot.style.top = `${posY}px`;
-
-                if (cursorOutline) {
-                    cursorOutline.animate({
-                        left: `${posX}px`,
-                        top: `${posY}px`
-                    }, { duration: 500, fill: 'forwards' });
-                }
-                requestAnimationFrame(moveCursor);
-            };
-            
-            if (window.matchMedia('(pointer: fine)').matches) {
-                moveCursor();
-            }
-
-            interactiveElements.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    if (cursorOutline) cursorOutline.classList.add('hover');
-                });
-                el.addEventListener('mouseleave', () => {
-                    if (cursorOutline) cursorOutline.classList.remove('hover');
-                });
-            });
-
             // --- Reveal on Scroll ---
             const revealElements = document.querySelectorAll('.reveal');
             const revealObserver = new IntersectionObserver((entries) => {
