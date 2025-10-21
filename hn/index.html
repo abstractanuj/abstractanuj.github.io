@@ -8,7 +8,6 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Sora:wght@400;600&display=swap" rel="stylesheet" preload>
-<link rel="stylesheet" href="/index.css">
 </head>
 <body>
     <div id="preloader">
@@ -24,7 +23,9 @@
                 <div class="header-main">
                     <h1>The Hacker News Daily</h1>
                     <div class="header-meta">
-                        <span>TUESDAY, OCTOBER 21, 2025</span>
+                        <span id="header-date"></span>
+                        <span id="header-time"></span>
+                        <span id="header-weather"></span>
                     </div>
                 </div>
             </div>
@@ -69,7 +70,7 @@
     </div>
 
     <footer>
-        A TYPOGRAPHIC READER imagined by Anuj
+     Imagined by Anuj :)
     </footer>
 
     <div id="comments-overlay" class="comments-overlay" hidden>
@@ -96,6 +97,5 @@
     </div>
 
     <script src="index.js"></script>
-<script type="module" src="/index.tsx"></script>
 </body>
 </html>
