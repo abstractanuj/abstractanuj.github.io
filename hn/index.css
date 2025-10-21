@@ -138,9 +138,23 @@ header {
   color: var(--meta-color);
   font-size: 0.8rem;
   letter-spacing: 1px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0 1.5rem; /* Spacing between items */
 }
 .header-meta span {
-  margin: 0 0.5rem;
+  position: relative; /* For the separator */
+}
+.header-meta span:not(:last-child)::after {
+    content: '•';
+    position: absolute;
+    right: -1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--meta-color);
+    opacity: 0.5;
 }
 
 /* --- CONTROLS BAR --- */
