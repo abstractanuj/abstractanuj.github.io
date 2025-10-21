@@ -12,7 +12,7 @@
 <body>
     <div class="site-wrapper">
         <header class="words-header">
-            <a href="index.html" class="back-link">&larr; Back to Home</a>
+            <a href="../index.html" class="back-link">&larr; Back to Home</a>
             <h1>Words</h1>
         </header>
 
@@ -30,7 +30,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             const grid = document.getElementById('words-grid');
-            const manifestURL = 'words/manifest.json';
+            const manifestURL = 'manifest.json';
 
             try {
                 const response = await fetch(manifestURL);
@@ -40,7 +40,7 @@
                 const posts = await response.json();
 
                 for (const post of posts) {
-                    const postURL = `words/${post.file}`;
+                    const postURL = post.file;
                     let snippet = 'Could not load snippet.';
 
                     try {
@@ -61,7 +61,7 @@
                     const postElement = document.createElement('article');
                     postElement.className = 'word-item';
 
-                    const formattedDate = new Date(post.date).toLocaleDateString('en-US', {
+                    const formattedDate = new Date(post.date).toLocaleString('en-US', {
                         year: 'numeric', month: 'long', day: 'numeric'
                     });
 
