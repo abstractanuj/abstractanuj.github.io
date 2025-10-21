@@ -1,0 +1,62 @@
+[
+  {
+    "file": "undergraduate-thesis.html",
+    "title": "My Undergraduate Thesis: A Glimpse",
+    "date": "2024-07-28",
+    "tags": ["academics", "physics", "thesis"]
+  },
+  {
+    "file": "objective-reality.html",
+    "title": "On the Existence of an Objective Reality",
+    "date": "2024-07-21",
+    "tags": ["philosophy", "reality", "metaphysics"]
+  },
+  {
+    "file": "limits-of-science.html",
+    "title": "On the Limits of Science",
+    "date": "2024-07-14",
+    "tags": ["science", "philosophy", "epistemology"]
+  },
+  {
+    "file": "purpose-of-life.html",
+    "title": "On the Purpose of Life",
+    "date": "2024-07-07",
+    "tags": ["philosophy", "existentialism", "purpose"]
+  },
+  {
+    "file": "free-will.html",
+    "title": "On the Problem of Free Will",
+    "date": "2024-06-30",
+    "tags": ["philosophy", "free will", "determinism"]
+  },
+  {
+    "file": "consciousness.html",
+    "title": "On the Nature of Consciousness",
+    "date": "2024-06-23",
+    "tags": ["consciousness", "philosophy", "neuroscience"]
+  },
+  {
+    "file": "math-in-physics.html",
+    "title": "The Unreasonable Effectiveness of Mathematics in Physics",
+    "date": "2024-06-16",
+    "tags": ["physics", "mathematics", "philosophy"]
+  },
+  {
+    "file": "philosophy-of-science.html",
+    "title": "The Philosophy of Science",
+    "date": "2024-06-09",
+    "tags": ["science", "philosophy", "popper", "kuhn"]
+  },
+  {
+    "file": "scientific-method.html",
+    "title": "The Scientific Method",
+    "date": "2024-06-02",
+    "tags": ["science", "philosophy", "epistemology"]
+  },
+  {
+    "file": "introduction.html",
+    "title": "An Introduction",
+    "date": "2024-05-26",
+    "tags": ["meta", "philosophy", "science"]
+  }
+]

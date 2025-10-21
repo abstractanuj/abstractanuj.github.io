@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On the Nature of Consciousness — SAREPRNE</title>
+    <link rel="stylesheet" href="writing.css">
+</head>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="site-wrapper">
+        <a href="index.html" class="back-link" style="margin-top: 2rem;">&larr; All Writings</a>
+        <main class="post-page-container">
+            <header class="post-page-header">
+                <h1>On the Nature of Consciousness</h1>
+                <div class="post-page-meta">
+                    <span>June 23, 2024</span> &bull; <span>#consciousness, #philosophy, #neuroscience</span>
+                </div>
+            </header>
+            <article class="post-page-content">
+                <p>Consciousness is one of the most mysterious phenomena in the universe. It is the state of being aware of one's own existence and of the world around one. But what is consciousness, and where does it come from? There is no single answer to this question, but there are a number of different theories that have been proposed.</p><p>One theory is that consciousness is a product of the brain. This theory is supported by the fact that consciousness is affected by brain injuries and by drugs that affect the brain. Another theory is that consciousness is a fundamental property of the universe, like space and time. This theory is supported by the fact that consciousness seems to be present in all living things, from bacteria to humans.</p><p>The nature of consciousness is a mystery that may never be fully solved. However, by studying consciousness, we can learn more about ourselves and about the universe we live in.</p>
+            </article>
+        </main>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('cursor-active');
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            const interactiveElements = document.querySelectorAll('a, button');
+
+            let mouse = { x: -100, y: -100 };
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+
+            const moveCursor = () => {
+                if (!cursorDot || !cursorOutline) return;
+                const posX = mouse.x;
+                const posY = mouse.y;
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+                cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: 'forwards' });
+                requestAnimationFrame(moveCursor);
+            };
+            moveCursor();
+
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+            });
+        });
+    </script>
+</body>
+</html>

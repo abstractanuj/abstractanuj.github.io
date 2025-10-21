@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>On the Problem of Free Will — SAREPRNE</title>
+    <link rel="stylesheet" href="writing.css">
+</head>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="site-wrapper">
+        <a href="index.html" class="back-link" style="margin-top: 2rem;">&larr; All Writings</a>
+        <main class="post-page-container">
+            <header class="post-page-header">
+                <h1>On the Problem of Free Will</h1>
+                <div class="post-page-meta">
+                    <span>June 30, 2024</span> &bull; <span>#philosophy, #free will, #determinism</span>
+                </div>
+            </header>
+            <article class="post-page-content">
+                <p>The problem of free will is the question of whether or not we have the ability to make our own choices. It is a question that has been debated by philosophers for centuries, and there is no easy answer. There are a number of different arguments that can be made for and against the existence of free will. For example, some people argue that we have free will because we are able to make choices that are not determined by our past experiences or by our genetic makeup.</p><p>Others argue that we do not have free will because our choices are ultimately determined by the laws of physics. The problem of free will is a complex one, and there is no single right answer. However, by thinking about the problem of free will, we can learn more about ourselves and about the nature of reality.</p>
+            </article>
+        </main>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('cursor-active');
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            const interactiveElements = document.querySelectorAll('a, button');
+
+            let mouse = { x: -100, y: -100 };
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+
+            const moveCursor = () => {
+                if (!cursorDot || !cursorOutline) return;
+                const posX = mouse.x;
+                const posY = mouse.y;
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+                cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: 'forwards' });
+                requestAnimationFrame(moveCursor);
+            };
+            moveCursor();
+
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Unreasonable Effectiveness of Mathematics in Physics — SAREPRNE</title>
+    <link rel="stylesheet" href="writing.css">
+</head>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="site-wrapper">
+        <a href="index.html" class="back-link" style="margin-top: 2rem;">&larr; All Writings</a>
+        <main class="post-page-container">
+            <header class="post-page-header">
+                <h1>The Unreasonable Effectiveness of Mathematics in Physics</h1>
+                <div class="post-page-meta">
+                    <span>June 16, 2024</span> &bull; <span>#physics, #mathematics, #philosophy</span>
+                </div>
+            </header>
+            <article class="post-page-content">
+                <p>In his 1960 essay, "The Unreasonable Effectiveness of Mathematics in the Natural Sciences," physicist Eugene Wigner expressed his astonishment at the fact that mathematical concepts, which are often developed with no thought of their application to the real world, turn out to be so well-suited to describing the physical universe.</p><p>For example, the complex numbers, which were originally invented to solve algebraic equations, have turned out to be essential for describing the behavior of quantum mechanical systems. And the non-Euclidean geometries, which were developed as a purely mathematical curiosity, have been used to describe the curvature of spacetime in Einstein's theory of general relativity.</p><p>There is no a priori reason why mathematics should be so effective at describing the physical world. It is a mystery that has puzzled philosophers and scientists for centuries. However, the unreasonable effectiveness of mathematics in physics is a testament to the power of human reason and to the beauty and elegance of the natural world.</p>
+            </article>
+        </main>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('cursor-active');
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            const interactiveElements = document.querySelectorAll('a, button');
+
+            let mouse = { x: -100, y: -100 };
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+
+            const moveCursor = () => {
+                if (!cursorDot || !cursorOutline) return;
+                const posX = mouse.x;
+                const posY = mouse.y;
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+                cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: 'forwards' });
+                requestAnimationFrame(moveCursor);
+            };
+            moveCursor();
+
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+            });
+        });
+    </script>
+</body>
+</html>

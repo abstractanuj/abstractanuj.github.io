@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Scientific Method — SAREPRNE</title>
+    <link rel="stylesheet" href="writing.css">
+</head>
+<body>
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <div class="site-wrapper">
+        <a href="index.html" class="back-link" style="margin-top: 2rem;">&larr; All Writings</a>
+        <main class="post-page-container">
+            <header class="post-page-header">
+                <h1>The Scientific Method</h1>
+                <div class="post-page-meta">
+                    <span>June 02, 2024</span> &bull; <span>#science, #philosophy, #epistemology</span>
+                </div>
+            </header>
+            <article class="post-page-content">
+                <p>The scientific method is a systematic process that scientists use to investigate the natural world. It is a powerful tool for learning about the universe and for solving problems. The scientific method is not a rigid set of rules, but rather a flexible framework that can be adapted to different situations.</p><p>The basic steps of the scientific method are as follows: Observe, Hypothesize, Predict, Test, and Conclude. The scientific method is an iterative process, which means that scientists may go back and forth between the different steps as they learn more about a particular topic.</p><p>The scientific method is a powerful tool for learning about the natural world, but it is not perfect. The scientific method can be used to make mistakes, and it can be used to support biased conclusions. It is important to be aware of the limitations of the scientific method and to be critical of the claims that are made in its name.</p>
+            </article>
+        </main>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.body.classList.add('cursor-active');
+            const cursorDot = document.querySelector('.cursor-dot');
+            const cursorOutline = document.querySelector('.cursor-outline');
+            const interactiveElements = document.querySelectorAll('a, button');
+
+            let mouse = { x: -100, y: -100 };
+            window.addEventListener('mousemove', (e) => {
+                mouse.x = e.clientX;
+                mouse.y = e.clientY;
+            });
+
+            const moveCursor = () => {
+                if (!cursorDot || !cursorOutline) return;
+                const posX = mouse.x;
+                const posY = mouse.y;
+                cursorDot.style.left = `${posX}px`;
+                cursorDot.style.top = `${posY}px`;
+                cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: 'forwards' });
+                requestAnimationFrame(moveCursor);
+            };
+            moveCursor();
+
+            interactiveElements.forEach(el => {
+                el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
+                el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+            });
+        });
+    </script>
+</body>
+</html>
