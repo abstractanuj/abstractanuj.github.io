@@ -1,27 +1,26 @@
 [
-  {
+{
     "file": "anuga.html",
-    "title": "My experience at Anuga FoodTec",
+    "title": "Impressions from ANUGA FoodTec '24",
     "date": "2024-09-05",
-    "tags": ["packaging", "meta"]
+    "tags": ["packaging", "technology", "foodtech"]
   },
- {
+  {
     "file": "atom.html",
-    "title": "Atoms",
+    "title": "But what is an Atom?",
     "date": "2024-03-06",
-    "tags": ["meta", "physics"]
+    "tags": ["science", "physics", "atom"]
   },
- {
+  {
     "file": "domestic_tech.html",
-    "title": "Why Countries Should Prioritize Domestic Tech",
+    "title": "On Indigenous Technology",
     "date": "2024-03-03",
-    "tags": ["thought"]
+    "tags": ["technology", "geopolitics", "privacy"]
   },
- {
+  {
     "file": "knox.html",
-    "title": "Knox mdm is a joke (⁠ﾉ⁠◕⁠ヮ⁠◕⁠)⁠ﾉ⁠*⁠.⁠✧",
+    "title": "Pwned Samsung's Knox Security",
     "date": "2024-03-01",
-    "tags": ["tech", "diy"]
+    "tags": ["security", "samsung", "knox", "android"]
   }
-
 ]
