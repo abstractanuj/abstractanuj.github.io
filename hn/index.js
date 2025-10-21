@@ -78,7 +78,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (loadMore) {
             elements.infiniteScrollLoader.hidden = false;
         } else {
-            showGridLoader();
+            // Only show the grid loader if the main preloader is already gone.
+            // This prevents a redundant loader on the initial page load.
+            if (elements.preloader.classList.contains('loaded')) {
+                showGridLoader();
+            }
             appState.storiesOffset = 0;
             appState.stories = [];
         }
@@ -597,7 +601,7 @@ document.addEventListener('DOMContentLoaded', () => {
         
         elements.commentsLoadMoreBtn.addEventListener('click', loadMainComments);
         elements.overlayCommentsContainer.addEventListener('click', e => {
-            const button = e.targe.closest('.load-replies-btn');
+            const button = e.target.closest('.load-replies-btn');
             if (button) {
                 loadMoreReplies(button);
             }
