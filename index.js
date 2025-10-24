@@ -213,25 +213,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const portfolioProjects = {
         'dispenser-carton': {
-            title: 'Dispenser Carton for Mints',
-            description: 'A compact and functional dispenser carton designed for mints or small candies. The design focuses on structural integrity, efficient material use, and a user-friendly dispensing mechanism.',
+            title: 'Trapezoidal Prism Tetra Pak for Juice',
+            description: 'A compact and functional 200ml Juice Tetra Pak. Designed as part of IIP coursework for Design Thinking. It has a rather unqiue structure to grab attention on Shelf captalised with its premium look and pricing.',
             images: [
-                { src: 'https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/si.png', alt: 'Dieline with graphic for dispenser carton' },
-                { src: 'https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/si%20pr.png', alt: 'Prototype of dispenser carton' }
+                { src: 'https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/si.png', alt: 'Dieline with graphic' },
+                { src: 'https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/si%20pr.png', alt: 'Prototype' }
             ]
         },
         'hexagonal-carton': {
-            title: 'Hexagonal Carton',
-            description: 'An innovative hexagonal carton structure that explores non-traditional packaging shapes to create a strong shelf presence and a unique unboxing experience.',
+            title: 'Two Juices in one Pak',
+            description: 'Yes, you can drink two different juices from one pak! Submission to coursework.',
             images: [
-                 { src: 'https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/pico.jpg', alt: 'Prototype of hexagonal carton' }
+                 { src: 'https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/pico.jpg', alt: 'Prototype' }
             ]
         },
         'cosmetic-box': {
-            title: 'Cosmetic Product Box',
-            description: 'A premium packaging concept for a cosmetic product. The design emphasizes clean aesthetics and structural simplicity, intended to provide a high-end unboxing experience.',
+            title: 'Hexagonl and comfy Pak',
+            description: 'A shot at premium packaging for Juice pak.',
             images: [
-                { src: 'https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/lych.jpg', alt: 'Dieline with graphic for cosmetic box' }
+                { src: 'https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/lych.jpg', alt: 'Dieline with graphic' }
             ]
         }
     };
