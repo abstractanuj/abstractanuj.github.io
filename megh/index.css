@@ -1,0 +1,351 @@
+/* --- THEME-DRIVEN STYLES --- */
+/* These styles are controlled by CSS variables injected by js/ui.js */
+
+body {
+    background-color: var(--background-color);
+    font-family: var(--font-family-body);
+    color: var(--text-color);
+    background-image: var(--background-image, url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='4' height='4' viewBox='0 0 4 4'%3E%3Cpath fill='%239C92AC' fill-opacity='0.1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E"));
+}
+
+.main-title {
+    font-family: var(--font-family-title, var(--font-family-button)); /* Use bold sans-serif */
+    font-weight: var(--font-weight-title, 700); /* Force bold */
+    color: var(--main-title-color);
+    text-shadow: var(--main-title-shadow);
+    letter-spacing: var(--main-title-letter-spacing, normal);
+    transition: color 0.5s ease, text-shadow 0.5s ease;
+}
+
+.main-title-sub {
+    font-family: var(--font-family-body);
+    color: var(--text-color);
+    opacity: 0.8;
+    font-weight: 400;
+    margin-top: 0.5rem; /* Added spacing */
+}
+
+#tagline {
+    font-family: var(--font-family-body);
+    color: var(--text-color);
+    opacity: 0.9;
+    transition: color 0.5s ease;
+}
+
+.themed-button {
+    border: 2px solid var(--button-border-color);
+    color: var(--button-text-color);
+    background-color: transparent;
+    font-family: var(--font-family-button);
+    font-weight: var(--font-weight-button);
+    font-size: var(--font-size-button);
+    padding: 0.65rem 1rem; /* Adjusted padding */
+}
+.themed-button:hover {
+    background-color: var(--button-hover-bg-color);
+    color: var(--button-hover-text-color);
+}
+.themed-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: transparent;
+    color: var(--button-text-color);
+}
+.themed-button.active-mode {
+    background-color: var(--active-btn-bg-color);
+    color: var(--active-btn-text-color);
+}
+.themed-button:active {
+    transform: scale(0.98);
+}
+
+
+.themed-panel {
+    border: 2px solid var(--panel-border-color);
+    background-color: var(--panel-bg-color);
+}
+
+.message-box {
+    background: var(--panel-bg-color);
+    border: 2px solid var(--panel-border-color);
+    box-shadow: 0 10px 35px var(--panel-shadow-color);
+    color: var(--text-color);
+}
+.message-box .main-title {
+    color: var(--message-box-title-color);
+    text-shadow: var(--message-box-title-shadow);
+}
+
+.password-input {
+    background-color: var(--password-input-bg);
+    border: 2px solid var(--password-input-border);
+    color: var(--text-color);
+}
+.password-input:focus {
+    box-shadow: 0 0 15px var(--password-input-focus-shadow);
+    border-color: var(--password-input-focus-border);
+}
+
+.stats-label {
+    font-family: var(--font-family-stats-label);
+    font-size: 0.7rem; /* Smaller size */
+    font-weight: var(--font-weight-stats-label);
+    color: var(--stats-label-color);
+    letter-spacing: 0.1em; /* Increased letter spacing */
+    text-transform: uppercase;
+    opacity: 0.8;
+    transition: color 0.5s ease;
+}
+.stats-value {
+    color: var(--stats-value-color);
+    font-family: var(--font-family-stats-value);
+    font-size: 1.2rem; /* Base size for mobile */
+    font-weight: var(--font-weight-stats-value);
+    line-height: 1.1; /* Tighter line height for large text */
+    margin-top: 0.25rem; /* Space between label and value */
+    transition: color 0.5s ease;
+}
+
+/* Larger stats on desktop */
+@media (min-width: 1024px) {
+    .stats-value {
+        font-size: 1.5rem;
+    }
+}
+
+
+.graph-container {
+    border-bottom: 2px solid var(--panel-border-color);
+}
+.graph-bar {
+    background-color: var(--graph-bar-bg);
+}
+
+
+/* --- GENERAL & STRUCTURAL STYLES --- */
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden; /* Prevents scrollbars, panning, and dragging the page */
+    margin: 0;
+    padding: 0;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.user-selectable {
+    user-select: text;
+    -webkit-user-select: text;
+}
+html { color-scheme: light; }
+body { 
+    transition: background-color 1.5s ease-in-out, color 0.5s ease; 
+    touch-action: none; /* Disables default touch actions like pinch-zoom */
+}
+.themed-panel, .message-box { transition: all 0.3s ease; }
+.themed-button { transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, transform 0.1s ease-out; }
+
+#canvas-container {
+    overflow: hidden;
+    /* Add outline for animation */
+    outline: 3px solid transparent;
+    transition: outline-color 0.3s ease;
+    outline-offset: 4px;
+    /* New properties to constrain the maze on tall/narrow screens */
+    max-height: 100%;
+    aspect-ratio: 1 / 1;
+}
+.canvas-container { cursor: default; }
+.password-input.error { border-color: #d9374b; box-shadow: 0 0 15px rgba(217, 55, 75, 0.7); }
+.graph-bar { position: relative; flex-grow: 1; max-width: 50px; transition: height 0.3s ease-out; border-radius: 4px 4px 0 0; }
+.graph-bar-label { position: absolute; bottom: -25px; width: 100%; text-align: center; font-size: 0.8rem; }
+.modal { 
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease; 
+    transform: scale(1);
+}
+.modal.hidden { 
+    opacity: 0; 
+    visibility: hidden; 
+    transform: scale(0.95);
+}
+
+/* --- Debug Overlay Styles --- */
+#debug-overlay {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    background: rgba(0, 0, 0, 0.75);
+    color: #00ff00; /* Classic terminal green */
+    font-family: monospace;
+    font-size: 12px;
+    padding: 8px;
+    border-radius: 4px;
+    z-index: 9999;
+    pointer-events: none; /* So it doesn't interfere with clicks */
+    white-space: pre;
+    opacity: 0;
+    transition: opacity 0.3s;
+    max-width: 300px;
+}
+
+body.debug-mode #debug-overlay {
+    opacity: 1;
+}
+
+/* --- Game Feedback Animations --- */
+@keyframes winTitleAnimation {
+    0% { transform: scale(0.8); opacity: 0.5; text-shadow: var(--message-box-title-shadow); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); opacity: 1; text-shadow: var(--message-box-title-shadow), 0 0 30px var(--goal-color); }
+}
+
+/* New pulse animation for the "Press to Start" message */
+@keyframes pulse-white {
+    0%, 100% {
+        opacity: 0.7;
+        transform: scale(1);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.02);
+    }
+}
+
+/* New pulse animation for the low-time timer warning */
+@keyframes pulse-red {
+    0%, 100% {
+        color: #d9374b; /* A strong red */
+        transform: scale(1);
+    }
+    50% {
+        color: #ff6b81; /* A brighter red */
+        transform: scale(1.05);
+    }
+}
+
+body.low-time-warning #timer, body.low-time-warning #timer-mobile {
+    animation: pulse-red 1.5s infinite ease-in-out;
+    font-weight: bold;
+}
+
+#winMessage:not(.hidden) #winTitle {
+    animation: winTitleAnimation 0.8s ease-out forwards;
+}
+
+#game-start-overlay {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+#game-start-overlay.visible {
+    opacity: 1;
+}
+
+#game-start-text {
+    /* Override theme color for guaranteed visibility */
+    color: #FFFFFF;
+    text-shadow: 
+        0px 0px 5px rgba(0, 0, 0, 0.8), 
+        0px 0px 15px rgba(0, 0, 0, 0.6),
+        2px 2px 2px rgba(0,0,0,0.5);
+}
+
+/* New Countdown Animations */
+@keyframes countdown-in-out {
+    0% { transform: scale(1.5); opacity: 0; }
+    20% { transform: scale(1); opacity: 1; }
+    80% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(0.8); opacity: 0; }
+}
+
+@keyframes go-out {
+    0% { transform: scale(0.8); opacity: 1; }
+    80% { transform: scale(1.2); opacity: 1; }
+    100% { transform: scale(1.2); opacity: 0; }
+}
+
+@keyframes level-clear-anim {
+    0% { transform: scale(0.8); opacity: 0; }
+    20% { transform: scale(1.1); opacity: 1; }
+    80% { transform: scale(1); opacity: 1; }
+    100% { transform: scale(1); opacity: 0; }
+}
+
+#game-start-text.level-clear {
+    animation: level-clear-anim 1.4s ease-in-out forwards;
+}
+
+#game-start-text.countdown {
+    /* Use a fixed duration for each number */
+    animation: countdown-in-out 0.8s ease-in-out forwards;
+}
+
+#game-start-text.go {
+    animation: go-out 0.8s ease-out forwards;
+}
+
+/* --- Mobile D-Pad --- */
+#dpad-controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    width: 240px;
+    height: 240px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    gap: 20px;
+}
+.dpad-btn {
+    background-color: var(--dpad-bg-color);
+    border: 1px solid var(--dpad-border-color);
+    border-radius: 16px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--dpad-text-color);
+    font-size: 2rem;
+    user-select: none; /* prevent text selection on tap-hold */
+    transition: background-color 0.2s ease, transform 0.1s ease-out, border-color 0.2s ease;
+}
+.dpad-btn:active, .dpad-btn.active-dpad {
+    background-color: var(--dpad-active-bg-color);
+    border-color: var(--dpad-active-border-color);
+    transform: scale(0.95);
+}
+#dpad-up { grid-area: 1 / 2 / 2 / 3; }
+#dpad-left { grid-area: 2 / 1 / 3 / 2; }
+#dpad-right { grid-area: 2 / 3 / 3 / 4; }
+#dpad-down { grid-area: 3 / 2 / 4 / 3; }
+
+/* Hide D-pad on non-touch devices */
+body.no-touch #dpad-controls {
+    display: none;
+}
+
+/* --- Onboarding Hint --- */
+#onboarding-hint {
+    position: absolute;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--panel-bg-color);
+    color: var(--text-color);
+    padding: 0.75rem 1.25rem;
+    border-radius: 8px;
+    border: 2px solid var(--panel-border-color);
+    box-shadow: 0 5px 20px var(--panel-shadow-color);
+    font-size: 1.1rem;
+    font-weight: 600;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease-in-out;
+    white-space: nowrap;
+    z-index: 10;
+}
+#onboarding-hint.visible {
+    opacity: 1;
+}
