@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chaukhat: The Function Guessing Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,700..1000;1,6..12,700..1000&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Nunito Sans', 'sans-serif'],
+              mono: ['Roboto Mono', 'monospace'],
+            },
+            colors: {
+              'brand-blue': '#0055FF',
+              'brand-green': '#34C759',
+              'brand-red': '#FF3B30',
+              'brand-yellow': '#FFCC00',
+              'brand-pink': '#FF2D55',
+              'bg-main': '#FDFBF6',
+              'text-main': '#111111',
+              'border-color': '#111111',
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      /* --- Global Styles --- */
+      .neo-shadow {
+        box-shadow: 4px 4px 0 #111;
+      }
+      .neo-button {
+        transition: transform 0.1s ease-out, box-shadow 0.1s ease-out;
+      }
+      .neo-button:hover {
+        transform: translate(1px, 1px);
+        box-shadow: 3px 3px 0 #111;
+      }
+      .neo-button:active {
+        transform: translate(4px, 4px);
+        box-shadow: 0px 0px 0 #111;
+      }
+
+      /* --- UI Animations & Polish --- */
+      @keyframes shake {
+        10%, 90% { transform: translate3d(-1px, 0, 0); }
+        20%, 80% { transform: translate3d(2px, 0, 0); }
+        30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+        40%, 60% { transform: translate3d(3px, 0, 0); }
+      }
+      .shake {
+        animation: shake 0.6s cubic-bezier(.36,.07,.19,.97) both;
+      }
+
+      @keyframes toast-in {
+        from { transform: translate(-50%, 100%); opacity: 0; }
+        to { transform: translate(-50%, 0); opacity: 1; }
+      }
+      @keyframes toast-out {
+        from { transform: translate(-50%, 0); opacity: 1; }
+        to { transform: translate(-50%, 100%); opacity: 0; }
+      }
+      .toast {
+        animation: toast-in 0.3s ease-out forwards;
+      }
+      .toast.closing {
+        animation: toast-out 0.3s ease-in forwards;
+      }
+      
+      /* --- Modal Animations --- */
+      @keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+      @keyframes scale-up { from { transform: scale(0.95); } to { transform: scale(1); } }
+      
+      .modal-enter {
+        animation: fade-in 0.2s ease-out forwards;
+      }
+      .modal-content-enter {
+        animation: scale-up 0.2s ease-out forwards;
+      }
+
+      /* --- Other Animations --- */
+      @keyframes fade-in-down {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-in-down {
+        animation: fade-in-down 0.3s ease-out forwards;
+      }
+      
+      @keyframes slide-in-up {
+          from { transform: translate(-50%, 20px); opacity: 0; }
+          to { transform: translate(-50%, 0); opacity: 1; }
+      }
+      .about-panel-enter {
+          animation: slide-in-up 0.3s ease-out forwards;
+      }
+
+      /* Style for invalid input */
+      .input-invalid {
+        box-shadow: 4px 4px 0 #FF3B30; /* brand-red */
+        border-color: #FF3B30;
+      }
+      
+      /* Custom slider track */
+      input[type="range"].styled-slider {
+        -webkit-appearance: none;
+        appearance: none;
+        background: #FDFBF6;
+        border: 2px solid #111;
+        cursor: pointer;
+        height: 12px;
+      }
+      /* Custom slider thumb */
+      input[type="range"].styled-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        background-color: #111;
+        height: 24px;
+        width: 12px;
+        border: 2px solid #111;
+      }
+
+      body {
+        background-color: #FDFBF6;
+      }
+    </style>
+    <!-- Dependencies -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://unpkg.com/mathjs@12.4.2/lib/browser/math.js"></script>
+    <script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+  <body class="bg-bg-main text-text-main font-sans">
+    <div id="app-container" class="relative w-screen h-dvh overflow-hidden flex flex-col font-sans">
+        <header class="absolute top-0 left-0 p-4 md:p-6 z-10 bg-bg-main border-2 border-border-color neo-shadow">
+            <div class="flex items-center gap-3">
+                <h1 class="text-2xl md:text-3xl font-extrabold text-text-main">Chaukhat</h1>
+                <button id="about-btn" class="bg-white rounded-full w-7 h-7 flex items-center justify-center border-2 border-border-color neo-button neo-shadow text-lg font-bold font-mono hover:bg-brand-yellow" title="How to Play">?</button>
+            </div>
+            <div id="header-info" class="text-text-main text-xs md:text-sm font-mono mt-1">
+                <p id="date-time-info">Loading...</p>
+                <p id="weather-info">Loading weather...</p>
+            </div>
+        </header>
+
+        <main id="graph-container" class="flex-grow h-full w-full"></main>
+        
+        <div id="function-input-container" class="absolute bottom-0 left-0 right-0 p-2 md:p-4 z-10 flex items-center justify-center"></div>
+
+        <aside id="controls-container"></aside>
+        
+        <div id="about-panel-container"></div>
+        <div id="modal-container"></div>
+        <div id="toast-container" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2"></div>
+    </div>
+    <script type="module" src="/index.js"></script>
+  <script type="module" src="/index.tsx"></script>
+</body>
+</html>
