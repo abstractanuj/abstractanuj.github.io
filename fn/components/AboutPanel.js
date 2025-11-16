@@ -9,8 +9,8 @@ export function renderAboutPanel(props) {
     }
 
     const content = `
-        <p class="mb-4 text-base font-mono">Welcome to Chaukhat, your daily graphing puzzle!</p>
-        <p class="mb-4 text-sm font-mono">Perfect for students learning graphs or anyone who enjoys a good puzzle over a cup of coffee.</p>
+        <p class="mb-4 text-base font-mono">This is f(Chaukhat),!</p>
+        <p class="mb-4 text-sm font-mono">Thanks @webgoatguy</p>
         <ul class="list-disc list-inside space-y-2 mb-6 text-sm font-mono">
             <li>Your goal is to guess the <span class="font-bold text-brand-blue">secret blue function</span>.</li>
             <li>Type your guess in the input bar to plot it in <span class="font-bold text-brand-red">red</span>.</li>
