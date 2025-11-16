@@ -33,6 +33,11 @@
       }
     </script>
     <style>
+      /* --- Isolate from parent styles to prevent overrides --- */
+      html, body {
+        all: revert;
+      }
+
       /* --- Global Styles --- */
       .neo-shadow {
         box-shadow: 4px 4px 0 #111;
@@ -144,7 +149,6 @@
   }
 }
 </script>
-<link rel="stylesheet" href="/index.css">
 </head>
   <body class="bg-bg-main text-text-main font-sans">
     <div id="app-container" class="relative w-screen h-dvh overflow-hidden flex flex-col font-sans">
@@ -170,6 +174,5 @@
         <div id="toast-container" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-2"></div>
     </div>
     <script type="module" src="/index.js"></script>
-  <script type="module" src="/index.tsx"></script>
-</body>
+  </body>
 </html>
