@@ -1,0 +1,5 @@
+{
+  "name": "Chaukhat",
+  "description": "A minigame, now with an Indian aesthetic, where you guess a secret mathematical function. 'Chaukhat' means 'threshold'—cross it by typing functions and using sliders to match your graph to the secret one.",
+  "requestFramePermissions": []
+}
