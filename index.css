@@ -438,7 +438,7 @@ body.cursor-active:hover .cursor-outline {
 }
 
 .etc-grid {
-    display: grid;
+    display: block;
     grid-template-columns: repeat(2, 1fr);
     gap: 4rem;
 }
