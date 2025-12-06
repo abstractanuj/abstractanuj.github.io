@@ -1,1 +1,0 @@
-// Code moved to index.html for browser compatibility
