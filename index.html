@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anuj Singh | Packaging Technologist</title>
+    <link rel="icon" href="https://files.catbox.moe/smrx82.ico">
+    <!-- Import Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #111111;
+            --secondary-text: #555555;
+            --link-color: #000000;
+            --hover-blue: #0055ff;
+            --spacing-unit: 1.5rem;
+            --font-main: "Inter", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
+            --size-xs: 0.75rem;
+            --size-sm: 0.875rem;
+            --size-base: 1rem;
+            --size-md: 1.125rem;
+            --size-lg: 1.5rem;
+            --size-xl: 2.5rem;
+        }
+
+        html { scroll-behavior: smooth; font-size: 16px; }
+
+        ::selection { background: #000; color: #fff; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #999; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            line-height: 1.5; 
+            -webkit-font-smoothing: antialiased;
+            padding: 0; margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* TYPOGRAPHY */
+        h1 {
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            color: var(--text-color);
+            font-size: 2.5rem;
+            line-height: 1.1;
+            margin-bottom: 0.5rem;
+        }
+
+        h2.section-title {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--secondary-text);
+            display: inline-block;
+            border: 1px solid #000;
+            padding: 0.2rem 0.5rem;
+            background: #fff;
+        }
+
+        h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem; 
+            max-width: 65ch;
+            font-weight: 400;
+            font-size: var(--size-base);
+            color: #222;
+        }
+        
+        strong { font-weight: 600; color: #000; }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-bottom: 1px solid #000;
+        }
+
+        a:hover {
+            color: var(--hover-blue);
+            border-bottom-color: var(--hover-blue);
+        }
+
+        /* LAYOUT - MOBILE FIRST */
+        .layout {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            border-top: 1px solid #000; 
+        }
+
+        /* SIDEBAR (IDENTITY) */
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid #000;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .tagline {
+            font-family: var(--font-mono);
+            font-size: var(--size-sm);
+            line-height: 1.4;
+            color: var(--secondary-text);
+            margin-top: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .contact-link {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: var(--text-color);
+        }
+
+        /* MAIN CONTENT */
+        main { display: flex; flex-direction: column; }
+
+        section {
+            padding: 2.5rem 1.5rem;
+            border-bottom: 1px solid #000;
+        }
+        section:last-child { border-bottom: none; }
+
+        .section-header {
+            display: flex; align-items: center; margin-bottom: 1.5rem;
+        }
+
+        /* SUB-SECTION STYLING */
+        .content-block {
+            margin-bottom: 2rem;
+        }
+        .content-block:last-child { margin-bottom: 0; }
+        
+        .meta-row {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--secondary-text);
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* LISTS */
+        .compact-list {
+            list-style: none;
+        }
+        .compact-list li {
+            position: relative;
+            padding-left: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .compact-list li::before {
+            content: "→";
+            position: absolute;
+            left: 0;
+            color: var(--secondary-text);
+            font-size: 0.8rem;
+        }
+
+        /* SKILLS */
+        .skills-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        .skill-category strong {
+            display: block;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.25rem;
+        }
+        .skill-text {
+            font-size: 0.95rem;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        /* PORTFOLIO */
+        .portfolio-item {
+            display: flex; flex-direction: column; margin-bottom: 3rem;
+            gap: 0.5rem;
+        }
+        .portfolio-item:last-child { margin-bottom: 0; }
+        
+        .project-details h4 { 
+            font-size: 1.25rem; 
+            font-weight: 700; 
+            margin-bottom: 0.25rem; 
+        }
+        
+        .project-desc {
+            font-size: 0.95rem;
+            color: #444;
+            margin-bottom: 0.5rem;
+        }
+
+        .tags { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 0.25rem; 
+            margin-top: 0.25rem; 
+        }
+        .tag {
+            font-family: var(--font-mono); font-size: 0.7rem; background: #f4f4f4;
+            padding: 2px 8px; border-radius: 2px; color: #333;
+            width: fit-content;
+        }
+        
+        /* FOOTER */
+        .site-footer {
+            padding: 2rem 1.5rem;
+            border-top: 1px solid #000;
+            display: flex;
+            gap: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+
+        /* --- DESKTOP LAYOUT (3-COLUMN SWISS GRID) --- */
+        @media (min-width: 1024px) {
+            body {
+                padding: 2rem;
+                background: #f4f4f4; 
+            }
+
+            .layout {
+                display: grid;
+                /* Column 1 (Sidebar) | Column 2 (Main Content Stream) */
+                grid-template-columns: 260px 1fr; 
+                max-width: 1300px;
+                margin: 0 auto;
+                background: #fff;
+                border: 1px solid #000;
+                box-shadow: 12px 12px 0 rgba(0,0,0,0.1);
+            }
+
+            /* Sidebar */
+            .sidebar-header {
+                position: sticky;
+                top: 0;
+                height: 100vh;
+                border-right: 1px solid #000; 
+                border-bottom: none;
+                padding: 3rem 2rem;
+                justify-content: flex-start;
+            }
+
+            /* Main Stream */
+            main {
+                display: block;
+            }
+
+            /* Section Grid: Splits Right Side into 2 Columns (Labels | Content) */
+            /* Total Page Layout = Sidebar | Labels | Content */
+            section {
+                padding: 4rem;
+                border-bottom: 1px solid #000;
+                display: grid;
+                grid-template-columns: 180px 1fr; /* Inner Grid */
+                gap: 2rem;
+                align-items: start;
+            }
+
+            .section-header {
+                margin-bottom: 0;
+            }
+            
+            /* Push all content content to the right inner column */
+            section > *:not(.section-header) {
+                grid-column: 2;
+            }
+
+            .project-details {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+            .project-info-col {
+                padding-right: 2rem;
+            }
+            .tags {
+                margin-top: 0;
+                flex-shrink: 0;
+                align-items: flex-end; 
+            }
+            
+            .site-footer {
+                grid-column: 2 / 3;
+                padding: 2rem 4rem;
+                /* Align with content grid */
+                display: grid;
+                grid-template-columns: 180px 1fr;
+                gap: 2rem;
+            }
+            
+            .site-footer > * {
+                grid-column: 2;
+                width: fit-content;
+                display: inline-block;
+                margin-right: 1.5rem;
+            }
+        }
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.98); z-index: 3000;
+            display: none; justify-content: center; align-items: center; padding: 2rem;
+        }
+        .modal-content {
+            background: #fff; width: 100%; max-width: 800px;
+            border: 1px solid #000; padding: 3rem; position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); max-height: 90vh; overflow-y: auto;
+        }
+        .modal-close {
+            position: absolute; top: 1.5rem; right: 1.5rem; background: #000; color: #fff;
+            border: none; font-size: 1.5rem; width: 40px; height: 40px; cursor: pointer;
+        }
+        .modal-images { display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 2rem; }
+        .modal-images img { width: 100%; border: 1px solid #eee; }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div class="layout">
+        <!-- Identity Column -->
+        <aside class="sidebar-header">
+            <h1>Anuj<br>Singh</h1>
+            
+            <div class="tagline">
+                Packaging Technologist<br>
+                <strong>Incoming Intern @ Pidilite</strong>
+            </div>
+
+            <ul class="contact-list">
+                <li><a href="mailto:sanuj8808@gmail.com" class="contact-link">sanuj8808@gmail.com</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content Stream -->
+        <main>
+            <!-- 01. Profile -->
+            <section id="profile">
+                <div class="section-header">
+                    <h2 class="section-title">01. Profile</h2>
+                </div>
+                <p>
+                    I see Packaging as a powerful means of <strong>cost minimization</strong> and <strong>profit maximization</strong>.
+                </p>
+                <p>
+                    My approach is to <strong>think, build, and iterate</strong>. Connecting <strong>material selection</strong>, <strong>testing</strong>, <strong>costing</strong>, and <strong>design</strong> into a singular chain of thought.
+                </p>
+                <p>
+                    I bring a unique blend of <strong>analytical thinking</strong> and <strong>consumer insight</strong>.
+                </p>
+            </section>
+
+            <!-- 02. Experience -->
+            <section id="experience">
+                <div class="section-header">
+                    <h2 class="section-title">02. Experience</h2>
+                </div>
+                <div class="content-block">
+                    <div class="meta-row">Starting February 2026</div>
+                    <h3>Packaging Intern &mdash; Pidilite Industries</h3>
+                    <p>Selected for internship program focusing on industrial and consumer packaging solutions.</p>
+                </div>
+            </section>
+
+            <!-- 03. Education -->
+            <section id="education">
+                <div class="section-header">
+                    <h2 class="section-title">03. Education</h2>
+                </div>
+                
+                <div class="content-block">
+                    <!-- Years removed -->
+                    <h3>PG Diploma in Packaging</h3>
+                    <p>Indian Institute of Packaging (IIP), Mumbai</p>
+                </div>
+
+                <div class="content-block">
+                    <!-- Years removed -->
+                    <h3>B.Sc. Mathematics</h3>
+                    <p>Mahatma Gandhi Kashi Vidyapith (MGKVP), Varanasi</p>
+                </div>
+            </section>
+
+            <!-- 04. Technical Projects (Was Hidden) -->
+            <section id="research">
+                <div class="section-header">
+                    <h2 class="section-title">04. Technical Research</h2>
+                </div>
+
+                <div class="content-block">
+                    <h3>Injection Moulding of Caps & Closures</h3>
+                    <p>Comparative analysis of Injection Moulding versus Compression Moulding for rigid packaging. Investigated material flow properties, cycle times, and defect rates in high-volume production.</p>
+                </div>
+
+                <div class="content-block">
+                    <h3>Art & Science of Spice Packaging</h3>
+                    <p>Study of barrier properties required for volatile spice compounds. Evaluated flexible laminates versus rigid containers for shelf-life retention and aroma preservation.</p>
+                </div>
+
+                <div class="content-block">
+                    <h3>MPET</h3>
+                    <p>Technical review of Metallized Polyethylene Terephthalate (MPET). Analyzed gas barrier properties, manufacturing processes, and recyclability challenges in flexible packaging streams.</p>
+                </div>
+            </section>
+
+            <!-- 05. Skills -->
+            <section id="skills">
+                <div class="section-header">
+                    <h2 class="section-title">05. Skills</h2>
+                </div>
+                
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <strong>Lab Testing & Quality Assurance</strong>
+                        <div class="skill-text">
+                            GSM, Bursting Strength (BS), Cobb, Ring Crush (RCT), Edge Crush (ECT), Box Compression (BCT), Tensile Strength (UTM), Dart Impact, OTR/WVTR, Coefficient of Friction (COF).
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <strong>Software & Tools</strong>
+                        <div class="skill-text">
+                            AutoCAD (Dielines), Adobe Illustrator, MS Office Suite.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 06. Projects -->
+            <section id="projects">
+                <div class="section-header">
+                    <h2 class="section-title">06. Projects</h2>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="project-details">
+                        <div class="project-info-col">
+                            <h4><a href="#" class="project-link" data-project="trapezoidal">Trapezoidal Prism Carton</a></h4>
+                            <div class="project-desc">
+                                Structural concept for 200ml juice packaging. Designed to improve grip ergonomics and shelf differentiation compared to standard brick packs.
+                            </div>
+                        </div>
+                        <div class="tags">
+                            <span class="tag">Prototype</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <footer class="site-footer">
+            <a href="writing.html">Writing</a>
+            <a href="https://abstractanuj.github.io/clicks.html" target="_blank">Photography</a>
+        </footer>
+    </div>
+
+    <!-- Portfolio Modal Container -->
+    <div id="projectModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">&times;</button>
+            <h3 id="modalTitle" class="modal-title"></h3>
+            <p id="modalDesc" class="modal-desc"></p>
+            <div id="modalImages" class="modal-images">
+                <!-- Images injected via JS -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Project Data
+        const projects = {
+            "trapezoidal": {
+                title: "Trapezoidal Prism Tetra Pak for Juice",
+                desc: "A compact and functional 200ml Juice Tetra Pak. Designed as part of IIP coursework for Design Thinking. It has a rather unqiue structure to grab attention on Shelf captalised with its premium look and pricing.",
+                images: [
+                    "https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/si%20pr.png"
+                ]
+            }
+        };
+
+        const modal = document.getElementById('projectModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalImages = document.getElementById('modalImages');
+        const closeBtn = document.querySelector('#projectModal .modal-close');
+
+        // Open Portfolio Modal
+        document.querySelectorAll('.project-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const key = link.getAttribute('data-project');
+                const data = projects[key];
+
+                if (data) {
+                    modalTitle.textContent = data.title;
+                    modalDesc.textContent = data.desc;
+                    
+                    // Clear and add images/placeholders
+                    modalImages.innerHTML = '';
+                    const imgs = data.images || [];
+                    
+                    imgs.forEach((imgUrl, i) => {
+                        if (imgUrl) {
+                            const img = document.createElement('img');
+                            img.src = imgUrl;
+                            img.alt = `${data.title} image ${i+1}`;
+                            modalImages.appendChild(img);
+                        } else {
+                            const placeholder = document.createElement('div');
+                            placeholder.className = 'image-placeholder';
+                            placeholder.textContent = `Image ${i + 1} Placeholder`;
+                            modalImages.appendChild(placeholder);
+                        }
+                    });
+
+                    modal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Close Portfolio Modal
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (modal.style.display === 'flex') closeModal();
+            }
+        });
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
