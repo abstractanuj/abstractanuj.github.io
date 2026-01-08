@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anuj Singh | Packaging Technologist</title>
+    <link rel="icon" href="https://files.catbox.moe/smrx82.ico">
+    <!-- Import Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        /* RESET & BASE */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #111111;
+            --secondary-text: #555555;
+            --link-color: #000000;
+            --hover-blue: #0055ff; /* Bright interaction blue */
+            --spacing-unit: 1.5rem;
+            --font-main: "Inter", sans-serif;
+            --font-mono: "JetBrains Mono", monospace;
+
+            /* Type Scale */
+            --size-xs: 0.75rem;
+            --size-sm: 0.875rem;
+            --size-base: 1rem;
+            --size-md: 1.125rem;
+            --size-lg: 1.5rem;
+            --size-xl: 2.5rem;
+            --size-xxl: 4rem;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        ::selection {
+            background: #000;
+            color: #fff;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #999; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: var(--font-main);
+            line-height: 1.5; 
+            -webkit-font-smoothing: antialiased;
+            padding: 0; 
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* TYPOGRAPHY */
+        h1, h2, h3, h4 {
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            margin-bottom: 0.75rem; 
+            color: var(--text-color);
+        }
+
+        h1 {
+            font-size: 3rem;
+            line-height: 1;
+            margin-bottom: 0; /* Adjusted for alignment */
+        }
+
+        h2.section-title {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+            font-weight: 600;
+            font-family: var(--font-mono);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--secondary-text);
+            display: inline-block;
+            border: 1px solid #000;
+            padding: 0.2rem 0.5rem;
+            background: #fff;
+        }
+
+        .tagline {
+            font-family: var(--font-mono);
+            font-size: var(--size-sm);
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+            color: var(--secondary-text);
+            letter-spacing: -0.02em;
+        }
+
+        p {
+            margin-bottom: 1rem; 
+            max-width: 60ch;
+            font-weight: 400;
+            font-size: var(--size-base);
+            color: #222;
+        }
+        
+        strong {
+            font-weight: 600;
+            color: #000; 
+        }
+
+        .large-text {
+            font-size: 1.75rem;
+            font-weight: 500;
+            line-height: 1.2;
+            color: #000;
+            letter-spacing: -0.03em;
+        }
+
+        a {
+            color: var(--link-color);
+            text-decoration: none;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            border-bottom: 1px solid #000; /* Black underline default */
+        }
+
+        a:hover {
+            color: var(--hover-blue);
+            text-decoration: none;
+            border-bottom-color: var(--hover-blue);
+        }
+        
+        /* Specific override for social icon */
+        a.social-icon {
+            border-bottom: none;
+        }
+
+        /* LAYOUT - MOBILE FIRST */
+        .layout {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            max-width: 100%;
+            margin: 0 auto;
+            border-top: 1px solid #000; 
+        }
+
+        /* SIDEBAR */
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid #000;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .sidebar-section {
+            margin-top: 2rem;
+        }
+        
+        .sidebar-section h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--secondary-text);
+            margin-bottom: 1rem; 
+            border-bottom: 1px solid #eee;
+            padding-bottom: 0.25rem;
+        }
+        
+        /* Unified Sidebar Text Styling */
+        .sidebar-list { list-style: none; }
+        .sidebar-list li { margin-bottom: 0.5rem; display: flex; justify-content: space-between; align-items: baseline; }
+        
+        .sidebar-text {
+            font-size: var(--size-sm);
+            font-weight: 500; /* Uniform weight */
+            color: var(--text-color);
+            line-height: 1.4;
+            transition: color 0.2s ease, border-color 0.2s ease;
+        }
+        
+        a.sidebar-text {
+            border-bottom: 1px solid #ccc;
+        }
+        a.sidebar-text:hover {
+            color: var(--hover-blue);
+            border-bottom-color: var(--hover-blue);
+        }
+
+        .ac-year {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--secondary-text);
+            font-weight: 500;
+            margin-left: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .sidebar-separator {
+            height: 1px;
+            background-color: #eee; 
+            margin: 1.5rem 0;
+            width: 100%;
+            display: block; 
+        }
+
+        .project-row { margin-bottom: 0.75rem; display: flex; align-items: center; flex-wrap: wrap; }
+        .thesis-row { display: block; margin-bottom: 0.75rem; }
+        
+        .course-tag {
+            font-family: var(--font-mono); font-size: 0.65rem;
+            color: #777; margin-right: 0.5rem; border: 1px solid #ddd;
+            padding: 1px 4px; border-radius: 3px; vertical-align: middle;
+        }
+
+        /* SOCIALS */
+        .socials-section {
+            margin-top: 2rem; 
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .social-icons-row { display: flex; gap: 1rem; align-items: center; }
+        .social-links-col { display: flex; gap: 1rem; }
+        
+        .social-icon { 
+            width: 20px; 
+            height: 20px; 
+            color: var(--text-color); 
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            transition: color 0.2s ease, transform 0.2s ease;
+        }
+        .social-icon svg { width: 100%; height: 100%; fill: currentColor; }
+        
+        .social-icon:hover { 
+            color: var(--hover-blue); 
+            transform: translateY(-2px); 
+        }
+        
+        .social-text-link { 
+            font-family: var(--font-mono); 
+            font-size: var(--size-sm); 
+            font-weight: 500; 
+            border-bottom: 1px solid #000; 
+        }
+        .social-text-link:hover { 
+            color: var(--hover-blue);
+            border-bottom-color: var(--hover-blue); 
+        }
+
+        .info-btn {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 14px; height: 14px; border: 1px solid #000; border-radius: 50%;
+            background: none; font-family: var(--font-mono); font-weight: bold;
+            font-size: 10px; cursor: pointer; margin-left: 6px; color: #000;
+            position: relative; top: -1px;
+            transition: all 0.2s ease;
+        }
+        .info-btn:hover { background: #000; color: #fff; border-color: #000; }
+
+        /* MAIN CONTENT */
+        main { display: flex; flex-direction: column; }
+
+        section {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid #000;
+        }
+        section:last-child { border-bottom: none; }
+
+        .section-header {
+            display: flex; align-items: center; margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        /* TOOLKIT */
+        .toolkit-grid { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+        .tool-item { 
+            display: flex; 
+            align-items: center; 
+            gap: 0.75rem; 
+            font-size: var(--size-base); 
+            font-weight: 500; 
+            cursor: default; /* Indicate it's not a link, but interactive */
+            transition: color 0.2s ease;
+        }
+        
+        /* Make text blue on hover too */
+        .tool-item:hover {
+            color: var(--hover-blue);
+        }
+
+        .tool-icon { 
+            width: 32px; 
+            height: 32px; 
+            object-fit: contain; 
+            filter: grayscale(100%); /* Default Black & White */
+            transition: filter 0.3s ease, transform 0.2s ease;
+        }
+
+        /* Reveal original color on hover */
+        .tool-item:hover .tool-icon {
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+
+        /* PORTFOLIO */
+        .portfolio-item {
+            display: flex; flex-direction: column; margin-bottom: 2rem;
+            padding-bottom: 2rem; border-bottom: 1px dashed #ccc;
+            gap: 0.5rem;
+        }
+        .portfolio-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+        .year { font-family: var(--font-mono); font-size: var(--size-sm); color: var(--secondary-text); }
+        .project-details h4 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.25rem; }
+        .tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 0.25rem; }
+        .tag {
+            font-family: var(--font-mono); font-size: 0.7rem; background: #f4f4f4;
+            padding: 2px 8px; border-radius: 2px; color: #333;
+        }
+        
+        /* Project links default black, hover blue */
+        .project-link { border-bottom-color: #000; }
+        .project-link:hover {
+            color: var(--hover-blue);
+            border-bottom-color: var(--hover-blue);
+        }
+
+        /* --- DESKTOP MAGAZINE GRID --- */
+        @media (min-width: 1024px) {
+            body {
+                padding: 2rem;
+                background: #f0f0f0; 
+            }
+
+            .layout {
+                display: grid;
+                grid-template-columns: 280px 1fr; 
+                max-width: 1400px;
+                margin: 0 auto;
+                background: #fff;
+                border: 1px solid #000;
+                box-shadow: 10px 10px 0 rgba(0,0,0,0.05);
+            }
+
+            /* Sidebar - Natural Scroll flow */
+            .sidebar-header {
+                position: relative; /* Changed from sticky */
+                height: auto; /* Allow auto height */
+                overflow-y: visible; /* Remove scroll */
+                border-right: 1px solid #000; 
+                border-bottom: none;
+                padding: 3rem 2rem;
+                justify-content: flex-start;
+            }
+
+            /* Main Grid */
+            main {
+                display: grid;
+                grid-template-columns: 1.6fr 1fr;
+                grid-auto-rows: min-content;
+            }
+
+            /* Grid Cells & Interactions */
+            section {
+                padding: 4rem;
+                border-bottom: 1px solid #000;
+                background: #fff; 
+            }
+
+            /* Grid Positions */
+            #about {
+                grid-column: 1 / 2;
+                grid-row: 1;
+                border-right: 1px solid #000;
+            }
+
+            #motto {
+                grid-column: 2 / 3;
+                grid-row: 1;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                background-image: radial-gradient(#eee 1px, transparent 1px);
+                background-size: 20px 20px; 
+            }
+
+            #portfolio {
+                grid-column: 1 / 2;
+                grid-row: 2;
+                border-right: 1px solid #000;
+                border-bottom: none; 
+                min-height: 500px;
+            }
+
+            #toolkit {
+                grid-column: 2 / 3;
+                grid-row: 2;
+                border-bottom: none;
+            }
+
+            /* Footer removed from grid layout */
+
+            .section-header::after { display: none; }
+            h2.section-title {
+                background: #000; color: #fff;
+                padding: 0.4rem 0.8rem;
+                font-size: 0.8rem;
+                letter-spacing: 0.1em;
+            }
+            .toolkit-grid { gap: 2rem; }
+        }
+
+        /* Tooltip */
+        #global-wiki-tooltip {
+            display: none; position: fixed; background: #fff; border: 1px solid #000;
+            padding: 1rem; font-size: var(--size-xs); box-shadow: 4px 4px 0 rgba(0,0,0,1);
+            z-index: 2000; width: 260px;
+        }
+        #global-wiki-tooltip.active { display: block; }
+        .tooltip-source { display: none; } /* Strictly hide sources */
+        
+        /* Modal */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 255, 255, 0.95); z-index: 3000;
+            display: none; justify-content: center; align-items: center; padding: 2rem;
+        }
+        .modal-content {
+            background: #fff; width: 100%; max-width: 900px;
+            border: 2px solid #000; padding: 3rem; position: relative;
+            box-shadow: 15px 15px 0 #000; max-height: 90vh; overflow-y: auto;
+        }
+        .modal-close {
+            position: absolute; top: 1.5rem; right: 1.5rem; background: #000; color: #fff;
+            border: none; font-size: 1.5rem; width: 40px; height: 40px; cursor: pointer;
+        }
+        .modal-images { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
+        .modal-images img { width: 100%; border: 1px solid #000; filter: grayscale(100%); transition: 0.3s; }
+        .modal-images img:hover { filter: grayscale(0%); }
+        
+        .header-top-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body>
+    <div class="layout">
+        <!-- Sidebar Column -->
+        <aside class="sidebar-header">
+            <div class="header-top-row">
+                <h1>Anuj Singh</h1>
+                <!-- LinkedIn Moved Here -->
+                <a href="https://www.linkedin.com/in/anujjjjsingh/" target="_blank" class="social-icon">
+                    <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+                </a>
+            </div>
+            
+            <div class="tagline">
+                Packaging Intern<br>@ Pidilite Industries
+            </div>
+
+            <!-- Sidebar Content -->
+            
+            <!-- PAPERS -->
+            <div class="sidebar-section">
+                <h3>Papers</h3>
+                <div class="thesis-row">
+                    <span class="course-tag">PGDP</span>
+                    <span class="sidebar-text">Injection Moulding of Caps & Closures
+                        <button class="info-btn" aria-label="Info" onclick="toggleTooltip(event, 'thesis-injection-content')">i</button>
+                    </span>
+                </div>
+                <div class="thesis-row">
+                    <span class="course-tag">PGDP</span>
+                    <span class="sidebar-text">Art and Science of Spice Packaging
+                        <button class="info-btn" aria-label="Info" onclick="toggleTooltip(event, 'thesis-spice-content')">i</button>
+                    </span>
+                </div>
+                 <div class="thesis-row">
+                    <span class="course-tag">PGDP</span>
+                    <span class="sidebar-text">MPET
+                        <button class="info-btn" aria-label="Info" onclick="toggleTooltip(event, 'thesis-mpet-content')">i</button>
+                    </span>
+                </div>
+                 <div class="thesis-row">
+                    <span class="course-tag">B.Sc.</span>
+                    <span class="sidebar-text">Consumer perception of Digital Payments
+                        <button class="info-btn" aria-label="Info" onclick="toggleTooltip(event, 'thesis-payment-content')">i</button>
+                    </span>
+                </div>
+            </div>
+
+            <!-- ACADEMICS -->
+            <div class="sidebar-section">
+                <h3>Academics</h3>
+                <ul class="sidebar-list">
+                    <li>
+                        <span class="sidebar-text">PG Diploma Packaging, IIP</span>
+                        <span class="ac-year">2026</span>
+                    </li>
+                    <li>
+                        <span class="sidebar-text">B.Sc. Mathematics</span>
+                        <span class="ac-year">2024</span>
+                    </li>
+                    <li>
+                        <span class="sidebar-text">10+2 TCSC, Mumbai</span>
+                        <span class="ac-year">2021</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- PROJECTS -->
+            <div class="sidebar-section">
+                <h3>Projects</h3>
+                <div class="project-row">
+                    <a href="https://abstractanuj.github.io/hn/" target="_blank" class="sidebar-text">HN Reader</a>
+                    <button class="info-btn" aria-label="Info" onclick="toggleTooltip(event, 'project-hn-content')">i</button>
+                </div>
+                <div class="project-row">
+                    <a href="https://github.com/meanii/Search4" target="_blank" class="sidebar-text">Search4 OSINT</a>
+                    <button class="info-btn" aria-label="Info" onclick="toggleTooltip(event, 'project-osint-content')">i</button>
+                </div>
+            </div>
+
+            <!-- HOBBIES (Newly Added) -->
+            <div class="sidebar-section">
+                <h3>Hobbies</h3>
+                 <div class="project-row">
+                    <a href="writing.html" class="sidebar-text">Writing</a>
+                </div>
+                <div class="project-row">
+                    <a href="https://abstractanuj.github.io/clicks.html" target="_blank" class="sidebar-text">Photography</a>
+                </div>
+            </div>
+
+            <!-- Removed separator and footer socials section -->
+        </aside>
+
+        <!-- Main Grid Area -->
+        <main>
+            <!-- About Section (Text Heavy) -->
+            <section id="about">
+                <div class="section-header">
+                    <h2 class="section-title">01. About</h2>
+                </div>
+                <p>
+                    I see <strong>Packaging</strong> as a powerful means of <strong>cost minimization</strong> and <strong>profit maximization</strong>.
+                </p>
+                <p>
+                    To <strong>think, build and iterate</strong> upon my <strong>chain of thought</strong> that connects <strong>material selection</strong>, <strong>testing</strong>, <strong>costing</strong> and <strong>design</strong>.
+                </p>
+                <p>
+                    I bring a unique blend of <strong>analytical thinking</strong> and <strong>consumer insight</strong>.
+                </p>
+            </section>
+
+            <!-- Motto Section (Visual Impact) -->
+            <section id="motto">
+                <div class="section-header">
+                    <h2 class="section-title">02. Motto</h2>
+                </div>
+                <p class="large-text">
+                    "Create vibrant solutions, bringing a fresh perspective and creative ideas to the table."
+                </p>
+            </section>
+
+            <!-- Toolkit Section (List) -->
+            <section id="toolkit">
+                <div class="section-header">
+                    <h2 class="section-title">03. Toolkit</h2>
+                </div>
+                
+                <div class="toolkit-grid">
+                    <div class="tool-item">
+                        <img src="https://github.com/abstractanuj/abstractanuj.github.io/blob/main/img/auto.PNG?raw=true" alt="AutoCAD" class="tool-icon">
+                        <span>AutoCAD</span>
+                    </div>
+                    <div class="tool-item">
+                        <img src="https://github.com/abstractanuj/abstractanuj.github.io/blob/main/img/py.PNG?raw=true" alt="Python" class="tool-icon">
+                        <span>Python</span>
+                    </div>
+                    <div class="tool-item">
+                        <img src="https://github.com/abstractanuj/abstractanuj.github.io/blob/main/img/vs.PNG?raw=true" alt="VS Code" class="tool-icon">
+                        <span>VS Code</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Portfolio Section (Star Content) -->
+            <section id="portfolio">
+                <div class="section-header">
+                    <h2 class="section-title">04. Portfolio</h2>
+                </div>
+                <p style="margin-bottom: 3rem; font-style: italic; color: var(--secondary-text);">
+                    Designs — get ready for innovation, inspiration, and aesthetics.
+                </p>
+
+                <div class="portfolio-item">
+                    <div class="year">2025</div>
+                    <div class="project-details">
+                        <h4><a href="#" class="project-link" data-project="trapezoidal">Trapezoidal Prism for Juices</a></h4>
+                        <div class="tags">
+                            <span class="tag">Dieline</span>
+                            <span class="tag">Prototype</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="year">2025</div>
+                    <div class="project-details">
+                        <h4><a href="#" class="project-link" data-project="double">Double Juices Tetrapak</a></h4>
+                        <div class="tags">
+                            <span class="tag">Prototype</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="portfolio-item">
+                    <div class="year">2025</div>
+                    <div class="project-details">
+                        <h4><a href="#" class="project-link" data-project="hexagonal">Hexagonal Juice Pak</a></h4>
+                        <div class="tags">
+                            <span class="tag">Dieline</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer REMOVED -->
+        </main>
+    </div>
+
+    <!-- Hidden Sources for Tooltips (Moved to bottom) -->
+    <div style="display:none;">
+        <div id="thesis-injection-content">
+            <strong>Injection Moulding</strong><br>Defect analysis & material selection for rigid closures.
+        </div>
+        <div id="thesis-spice-content">
+            <strong>Spice Packaging</strong><br>Barrier properties & shelf-life extension research.
+        </div>
+        <div id="thesis-mpet-content">
+            <strong>MPET</strong><br>Metallized PET films manufacturing & sustainability.
+        </div>
+        <div id="thesis-payment-content">
+            <strong>Digital Payments</strong><br>Statistical analysis of consumer adoption trends.
+        </div>
+        <!-- New Project Tooltips -->
+        <div id="project-hn-content">
+            <strong>HN Reader</strong><br>A minimalist, typography-focused reader for Hacker News.
+        </div>
+        <div id="project-osint-content">
+            <strong>Search4 OSINT</strong><br>Username enumeration tool for Open Source Intelligence gathering.
+        </div>
+    </div>
+
+    <!-- Portfolio Modal Container -->
+    <div id="projectModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close" aria-label="Close modal">&times;</button>
+            <h3 id="modalTitle" class="modal-title"></h3>
+            <p id="modalDesc" class="modal-desc"></p>
+            <div id="modalImages" class="modal-images">
+                <!-- Images injected via JS -->
+            </div>
+        </div>
+    </div>
+    
+    <!-- Global Wikipedia-like Tooltip -->
+    <div id="global-wiki-tooltip"></div>
+    
+    <script>
+        // Project Data
+        const projects = {
+            "trapezoidal": {
+                title: "Trapezoidal Prism Tetra Pak for Juice",
+                desc: "A compact and functional 200ml Juice Tetra Pak. Designed as part of IIP coursework for Design Thinking. It has a rather unqiue structure to grab attention on Shelf captalised with its premium look and pricing.",
+                images: [
+                    "https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/si.png",
+                    "https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/si%20pr.png"
+                ]
+            },
+            "double": {
+                title: "Two Juices in one Pak",
+                desc: "Yes, you can drink two different juices from one pak! Submission to coursework.",
+                images: [
+                    "https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/pico.jpg"
+                ]
+            },
+            "hexagonal": {
+                title: "Hexagonal and comfy Pak",
+                desc: "A shot at premium packaging for Juice pak.",
+                images: [
+                    "https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/refs/heads/main/img/design/lych.jpg"
+                ]
+            }
+        };
+
+        const modal = document.getElementById('projectModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalImages = document.getElementById('modalImages');
+        const closeBtn = document.querySelector('#projectModal .modal-close');
+
+        // Open Portfolio Modal
+        document.querySelectorAll('.project-link').forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const key = link.getAttribute('data-project');
+                const data = projects[key];
+
+                if (data) {
+                    modalTitle.textContent = data.title;
+                    modalDesc.textContent = data.desc;
+                    
+                    // Clear and add images/placeholders
+                    modalImages.innerHTML = '';
+                    const imgs = data.images || [];
+                    
+                    imgs.forEach((imgUrl, i) => {
+                        if (imgUrl) {
+                            const img = document.createElement('img');
+                            img.src = imgUrl;
+                            img.alt = `${data.title} image ${i+1}`;
+                            modalImages.appendChild(img);
+                        } else {
+                            const placeholder = document.createElement('div');
+                            placeholder.className = 'image-placeholder';
+                            placeholder.textContent = `Image ${i + 1} Placeholder`;
+                            modalImages.appendChild(placeholder);
+                        }
+                    });
+
+                    modal.style.display = 'flex';
+                    document.body.style.overflow = 'hidden';
+                }
+            });
+        });
+
+        // Close Portfolio Modal
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) closeModal();
+        });
+        
+        // --- Wikipedia-like Tooltip Logic ---
+        const globalTooltip = document.getElementById('global-wiki-tooltip');
+        let activeTooltipBtn = null;
+
+        function toggleTooltip(event, contentId) {
+            event.stopPropagation();
+            const btn = event.currentTarget;
+
+            // If clicking the same button, close it
+            if (activeTooltipBtn === btn && globalTooltip.style.display === 'block') {
+                globalTooltip.style.display = 'none';
+                activeTooltipBtn = null;
+                return;
+            }
+
+            // Set content
+            const content = document.getElementById(contentId).innerHTML;
+            globalTooltip.innerHTML = content;
+            globalTooltip.style.display = 'block';
+            activeTooltipBtn = btn;
+
+            // Calculate Position (Fixed)
+            const btnRect = btn.getBoundingClientRect();
+            
+            // Default: position below the button
+            let top = btnRect.bottom + 8;
+            let left = btnRect.left;
+
+            // Adjust if goes off screen (Right edge)
+            if (left + 260 > window.innerWidth) {
+                left = window.innerWidth - 270; // 10px padding from right
+            }
+
+            // Adjust if goes off screen (Bottom edge) - flip to top
+            if (top + 200 > window.innerHeight) {
+                top = btnRect.top - globalTooltip.offsetHeight - 8;
+            }
+
+            globalTooltip.style.top = `${top}px`;
+            globalTooltip.style.left = `${left}px`;
+        }
+
+        // Close tooltip when clicking outside
+        document.addEventListener('click', (e) => {
+            if (activeTooltipBtn && !e.target.closest('#global-wiki-tooltip') && !e.target.closest('.info-btn')) {
+                globalTooltip.style.display = 'none';
+                activeTooltipBtn = null;
+            }
+        });
+        
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                if (modal.style.display === 'flex') closeModal();
+                if (globalTooltip.style.display === 'block') {
+                    globalTooltip.style.display = 'none';
+                    activeTooltipBtn = null;
+                }
+            }
+        });
+
+        // Update tooltip position on scroll
+        window.addEventListener('scroll', () => {
+             if (globalTooltip.style.display === 'block') {
+                 globalTooltip.style.display = 'none';
+                 activeTooltipBtn = null;
+             }
+        }, true);
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
