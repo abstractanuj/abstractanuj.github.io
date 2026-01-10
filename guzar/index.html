@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guzar | Private Wealth & Legacy Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0b1120; /* Deep Navy */
+            --paper: #f4f1ea;
+            --gold: #c5a059;
+            --text: #e2e8f0;
+            --muted: #94a3b8;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body { 
+            background: var(--bg); 
+            color: var(--text); 
+            font-family: 'Lato', sans-serif; 
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4 { font-family: 'Playfair Display', serif; color: var(--paper); }
+        h1 { line-height: 1.1; }
+
+        .gold-text { color: var(--gold); }
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
+        .btn { 
+            background: transparent; border: 1px solid var(--gold); color: var(--gold); 
+            padding: 1rem 2rem; text-decoration: none; text-transform: uppercase; 
+            font-size: 0.8rem; letter-spacing: 2px; transition: all 0.3s; cursor: pointer;
+            display: inline-block;
+        }
+        .btn:hover { background: var(--gold); color: #000; }
+
+        /* Nav */
+        nav { padding: 2.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .nav-flex { display: flex; justify-content: space-between; align-items: center; }
+        .logo { font-size: 1.8rem; letter-spacing: 1px; font-style: italic; }
+        .nav-items a { color: var(--muted); margin-left: 2rem; text-decoration: none; font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; }
+        .nav-items a:hover { color: var(--gold); }
+
+        /* Hero */
+        .hero { padding: 6rem 0; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; min-height: 80vh; }
+        .hero-content h1 { font-size: 4rem; margin-bottom: 2rem; }
+        .hero-content p { font-size: 1.1rem; color: var(--muted); line-height: 1.8; margin-bottom: 3rem; }
+        .hero-stats { display: flex; gap: 3rem; margin-top: 2rem; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); }
+        .stat strong { display: block; font-size: 2rem; color: var(--gold); font-family: 'Playfair Display', serif; }
+        .stat span { font-size: 0.8rem; text-transform: uppercase; color: var(--muted); letter-spacing: 1px; }
+        
+        .hero-img-wrap { position: relative; }
+        .hero-img { width: 100%; filter: sepia(20%) contrast(110%); border-radius: 2px; }
+        .badge { 
+            position: absolute; bottom: -20px; left: -20px; background: var(--paper); color: #000; 
+            padding: 1.5rem; max-width: 200px; font-family: 'Playfair Display', serif; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Partners */
+        .partners { padding: 4rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); text-align: center; }
+        .partners p { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 2px; color: var(--muted); margin-bottom: 2rem; }
+        .partner-grid { display: flex; justify-content: center; gap: 4rem; opacity: 0.6; flex-wrap: wrap; }
+        .partner-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; }
+
+        /* Offerings */
+        .offerings { padding: 6rem 0; background: #0f1623; }
+        .off-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; background: rgba(197, 160, 89, 0.2); }
+        .off-card { background: #0f1623; padding: 3rem 2rem; height: 100%; transition: background 0.3s; }
+        .off-card:hover { background: #131c2c; }
+        .off-card h3 { font-size: 1.5rem; margin-bottom: 1rem; color: var(--gold); }
+        .off-card p { color: var(--muted); line-height: 1.6; font-size: 0.95rem; }
+        .off-link { display: inline-block; margin-top: 1.5rem; color: #fff; text-decoration: none; border-bottom: 1px solid var(--gold); padding-bottom: 2px; font-size: 0.8rem; }
+
+        /* Ambassador/Patron */
+        .patron { padding: 6rem 0; text-align: center; }
+        .patron-quote { font-size: 2rem; font-style: italic; max-width: 800px; margin: 0 auto 3rem; color: var(--paper); line-height: 1.4; }
+        .patron-info img { width: 100px; height: 100px; border-radius: 50%; border: 2px solid var(--gold); margin-bottom: 1rem; object-fit: cover; }
+        .patron-info h4 { font-size: 1.2rem; margin-bottom: 0.5rem; }
+        .patron-info span { color: var(--gold); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Compliance */
+        .compliance { background: var(--paper); color: #0b1120; padding: 4rem 0; }
+        .comp-flex { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem; }
+        .comp-text h3 { color: #0b1120; margin-bottom: 0.5rem; }
+        .comp-badges { display: flex; gap: 2rem; }
+        .badge-item { border: 1px solid #0b1120; padding: 0.5rem 1rem; font-size: 0.8rem; font-weight: 700; }
+
+        /* Testimonials */
+        .reviews { padding: 6rem 0; }
+        .review-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+        .review-card { background: rgba(255,255,255,0.02); padding: 2rem; border-left: 2px solid var(--gold); }
+        .review-card p { color: #ccc; font-style: italic; margin-bottom: 1.5rem; }
+        .reviewer strong { display: block; color: var(--gold); font-family: 'Playfair Display', serif; }
+        .reviewer span { font-size: 0.8rem; color: var(--muted); }
+
+        /* Contact */
+        .contact { padding: 6rem 0; text-align: center; border-top: 1px solid rgba(255,255,255,0.1); }
+        .form-box { max-width: 500px; margin: 0 auto; text-align: left; }
+        .input-group { margin-bottom: 1.5rem; }
+        .input-group label { display: block; color: var(--gold); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .input-group input { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--muted); color: #fff; padding: 0.5rem 0; font-family: 'Playfair Display', serif; font-size: 1.2rem; }
+        .input-group input:focus { outline: none; border-color: var(--gold); }
+
+        footer { padding: 3rem 0; text-align: center; color: var(--muted); font-size: 0.8rem; border-top: 1px solid rgba(255,255,255,0.05); }
+
+        @media (max-width: 900px) {
+            .hero { grid-template-columns: 1fr; text-align: center; }
+            .hero-stats { justify-content: center; }
+            .off-grid { grid-template-columns: 1fr; }
+            .comp-flex { flex-direction: column; text-align: center; }
+            .review-grid { grid-template-columns: 1fr; }
+            .badge { position: relative; bottom: auto; left: auto; margin: -2rem auto 0; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container nav-flex">
+            <div class="logo">Guzar</div>
+            <div class="nav-items">
+                <a href="#philosophy">Philosophy</a>
+                <a href="#services">Services</a>
+                <a href="#access">Private Access</a>
+                <a href="#contact">Membership</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="hero container">
+        <div class="hero-content">
+            <h1>Silence is the true sound of <span class="gold-text">wealth.</span></h1>
+            <p>We are not just wealth managers; we are architects of legacy. Serving ultra-high-net-worth families with discretion, strategy, and foresight since 2012.</p>
+            <a href="#contact" class="btn">Request Invitation</a>
+
+            <div class="hero-stats">
+                <div class="stat">
+                    <strong>₹12k Cr</strong>
+                    <span>Assets Managed</span>
+                </div>
+                <div class="stat">
+                    <strong>24%</strong>
+                    <span>Avg. IRR (FY23)</span>
+                </div>
+                <div class="stat">
+                    <strong>150</strong>
+                    <span>Families</span>
+                </div>
+            </div>
+        </div>
+        <div class="hero-img-wrap">
+            <img src="https://images.unsplash.com/photo-1618331835717-801e976710b2?q=80&w=1000&auto=format&fit=crop" class="hero-img" alt="Luxury Vault">
+            <div class="badge">
+                "Guzar is the gold standard for Indian Family Offices." <br><br>— Forbes India
+            </div>
+        </div>
+    </header>
+
+    <div class="partners container">
+        <p>Strategic Clearing & Custody Partners</p>
+        <div class="partner-grid">
+            <div class="partner-logo">J.P. Morgan</div>
+            <div class="partner-logo">BlackRock</div>
+            <div class="partner-logo">Goldman Sachs</div>
+            <div class="partner-logo">Deloitte (Audit)</div>
+        </div>
+    </div>
+
+    <section id="services" class="offerings">
+        <div class="container">
+            <div class="off-grid">
+                <div class="off-card">
+                    <h3>Discretionary Equity</h3>
+                    <p>Our flagship 'Long Horizon' fund focuses on compounding capital through concentrated bets in market leaders. Zero exit load for partners over 5 years.</p>
+                    <a href="#" class="off-link">View Fact Sheet &rarr;</a>
+                </div>
+                <div class="off-card">
+                    <h3>Private Markets</h3>
+                    <p>Exclusive pre-IPO access to India's unicorns and distress asset opportunities. We leverage our network to find deals not available on the open market.</p>
+                    <a href="#" class="off-link">View Portfolio &rarr;</a>
+                </div>
+                <div class="off-card">
+                    <h3>Estate & Trust</h3>
+                    <p>Structuring multi-generational wealth transfer. We navigate tax intricacies and legal frameworks to ensure your legacy remains intact.</p>
+                    <a href="#" class="off-link">Consult Legal Team &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="compliance">
+        <div class="container comp-flex">
+            <div class="comp-text">
+                <h3>Regulatory Integrity</h3>
+                <p>We operate with absolute transparency and adherence to the highest fiduciary standards.</p>
+            </div>
+            <div class="comp-badges">
+                <div class="badge-item">SEBI Reg: INP0000123XX</div>
+                <div class="badge-item">AMFI Reg: ARN-99XX</div>
+                <div class="badge-item">CFA Charterholder Led</div>
+            </div>
+        </div>
+    </div>
+
+    <section class="patron container">
+        <div class="patron-quote">
+            "In a world of noise, Guzar provides the clarity my family needs. They don't chase trends; they chase value. That is why they manage my personal trust."
+        </div>
+        <div class="patron-info">
+            <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=200&auto=format&fit=crop" alt="Patron">
+            <h4>Mr. Vikramaditya Singh</h4>
+            <span>Global Brand Ambassador &bull; Industrialist</span>
+        </div>
+    </section>
+
+    <section class="reviews container">
+        <h2 style="text-align: center; margin-bottom: 3rem;">Client Perspectives</h2>
+        <div class="review-grid">
+            <div class="review-card">
+                <p>"I sold my startup in 2018. Guzar helped me diversify that liquidity into assets that generate passive income, allowing me to focus on my next venture."</p>
+                <div class="reviewer">
+                    <strong>Arjun K.</strong>
+                    <span>Tech Founder (Series B)</span>
+                </div>
+            </div>
+            <div class="review-card">
+                <p>"Their estate planning team is exceptional. They handled our cross-border asset transfer involving 3 jurisdictions without a hitch."</p>
+                <div class="reviewer">
+                    <strong>The Mistry Family</strong>
+                    <span>Real Estate Tycoons</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Private Consultation</h2>
+            <p style="color: var(--muted); margin-bottom: 3rem;">Membership is by invitation or referral. You may request a call back.</p>
+            <div class="form-box">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text">
+                </div>
+                <div class="input-group">
+                    <label>Corporate / Family Office Name</label>
+                    <input type="text">
+                </div>
+                <div class="input-group">
+                    <label>Investable AUM (Range)</label>
+                    <input type="text" placeholder="e.g. ₹50 Cr+">
+                </div>
+                <button class="btn" style="width: 100%; margin-top: 1rem;">Initiate Protocol</button>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 Guzar Wealth Management LLP. A Drishti Enterprise.</p>
+            <p style="margin-top: 0.5rem; opacity: 0.5; font-size: 0.7rem;">
+                Investments are subject to market risks. Read all scheme related documents carefully. <br>
+                Registered Office: Dalal Street, Mumbai, 400001.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
