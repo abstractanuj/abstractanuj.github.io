@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drishka | Packaging Consultancy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #ffffff;
+            --text: #1a1a1a;
+            --line: #e5e5e5;
+            --blue: #0044cc;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; }
+        
+        .grid-lines {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: -1;
+            background-size: 40px 40px;
+            background-image: linear-gradient(to right, #f5f5f5 1px, transparent 1px),
+                              linear-gradient(to bottom, #f5f5f5 1px, transparent 1px);
+        }
+
+        header { padding: 3rem 5%; display: flex; justify-content: space-between; align-items: baseline; }
+        .brand { font-size: 1.2rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; }
+        .tag { font-size: 0.8rem; color: #666; }
+
+        .hero { padding: 5rem 5%; max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .hero-content h1 { font-size: 3.5rem; letter-spacing: -1px; line-height: 1.1; margin-bottom: 2rem; }
+        .hero-content p { font-size: 1.1rem; color: #555; line-height: 1.6; margin-bottom: 2rem; }
+        .hero-img { width: 100%; height: 500px; background: #f0f0f0; position: relative; overflow: hidden; }
+        .hero-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: filter 0.5s; }
+        .hero-img:hover img { filter: grayscale(0%); }
+
+        .stats { background: #111; color: #fff; padding: 5rem 5%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .stat-item h3 { font-size: 3rem; font-weight: 300; margin-bottom: 0.5rem; }
+        .stat-item p { font-size: 0.9rem; color: #888; text-transform: uppercase; }
+
+        .case-study { padding: 5rem 5%; border-bottom: 1px solid var(--line); }
+        .cs-label { font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--blue); margin-bottom: 1rem; display: block; }
+        .quote-box { background: #f9f9f9; padding: 3rem; border-left: 4px solid var(--blue); margin-top: 3rem; }
+        .quote-text { font-size: 1.25rem; font-style: italic; color: #333; margin-bottom: 1.5rem; }
+        .quote-author { font-weight: 600; font-size: 0.9rem; }
+
+        .contact { padding: 5rem 5%; max-width: 800px; margin: 0 auto; text-align: center; }
+        .btn { background: var(--text); color: #fff; padding: 1rem 3rem; text-decoration: none; display: inline-block; font-weight: 600; margin-top: 2rem; transition: background 0.3s; }
+        .btn:hover { background: var(--blue); }
+
+        footer { padding: 2rem 5%; border-top: 1px solid var(--line); font-size: 0.8rem; color: #888; display: flex; justify-content: space-between; }
+
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; }
+            .hero-content h1 { font-size: 2.5rem; }
+            .stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="grid-lines"></div>
+    <header>
+        <div class="brand">Drishka</div>
+        <div class="tag">Structural Packaging &middot; Material Science</div>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>We engineer the<br>unboxing experience.</h1>
+            <p>Drishka optimizes the intersection of aesthetic desire and logistical reality. We help brands save costs while improving shelf appeal through structural innovation.</p>
+            <a href="#contact" style="color: var(--blue); text-decoration: none; font-weight: 600; border-bottom: 2px solid var(--blue);">Work with us &rarr;</a>
+        </div>
+        <div class="hero-img">
+            <img src="https://images.unsplash.com/photo-1589939705384-5185137a7f0f?q=80&w=1000&auto=format&fit=crop" alt="Cardboard Structure">
+        </div>
+    </section>
+
+    <section class="stats">
+        <div class="stat-item">
+            <h3>18%</h3>
+            <p>Avg. Material Cost Reduction</p>
+        </div>
+        <div class="stat-item">
+            <h3>40+</h3>
+            <p>Patents Filed</p>
+        </div>
+        <div class="stat-item">
+            <h3>0%</h3>
+            <p>Plastic (Goal for 2025)</p>
+        </div>
+    </section>
+
+    <section class="case-study">
+        <span class="cs-label">Recent Client Success</span>
+        <h2 style="font-size: 2rem; max-width: 700px; margin-bottom: 2rem;">Redesigning the logistics chain for a leading Indian spice exporter.</h2>
+        <div class="quote-box">
+            <p class="quote-text">"Drishka's team didn't just design a box; they redesigned how we palletize. We saved ₹1.2 Cr in shipping costs in the first year alone."</p>
+            <p class="quote-author">&mdash; Vikram S., Operations Head, Spicery Ltd.</p>
+        </div>
+    </section>
+
+    <section class="contact" id="contact">
+        <h2>Ready to optimize?</h2>
+        <p style="margin-top: 1rem; color: #666;">Send us your current dielines for a free audit.</p>
+        <a href="mailto:consult@drishka.com" class="btn">Get in Touch</a>
+    </section>
+
+    <footer>
+        <span>&copy; 2024 Drishka Packaging.</span>
+        <span>A Drishti Enterprise.</span>
+    </footer>
+</body>
+</html>
