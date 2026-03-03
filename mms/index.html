@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pidilite P-MMS Dashboard</title>
+    <link rel="stylesheet" href="/style.css">
+    <!-- Chart.js for pure JS charting -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="show-login">
+    <!-- Login Screen -->
+    <div id="login-screen" class="login-container">
+        <div class="login-box">
+            <div class="login-logo">
+                <img src="https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/dcc9bd6803fd535102cec73aa0bfdee720674bc3/mms/Pidilite_logo.svg.png" alt="Pidilite Logo" style="height: 48px;" referrerPolicy="no-referrer" />
+                <h2 style="margin-top: 16px; color: #00529b;">P-MMS Portal</h2>
+                <p class="text-muted text-sm">Packaging Mould Management System</p>
+            </div>
+            <form id="login-form">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="login-username" class="filter-select" required value="pil">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="login-password" class="filter-select" required value="opp">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select id="login-role" class="filter-select" required>
+                        <option value="Admin">Admin</option>
+                        <option value="Packaging Development">Packaging Development</option>
+                        <option value="Toolroom">Toolroom</option>
+                        <option value="Procurement">Procurement</option>
+                        <option value="QA">QA</option>
+                        <option value="Plant/Operations">Plant/Operations</option>
+                        <option value="Finance">Finance</option>
+                        <option value="Vendor">Vendor (Restricted)</option>
+                        <option value="Auditor">Auditor (Read-Only)</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-primary" style="width: 100%; margin-top: 16px; padding: 10px; font-size: 16px; justify-content: center;">Login</button>
+                <div id="login-error" class="text-red text-sm mt-2 hidden" style="text-align: center;">Invalid credentials.</div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Top Navigation -->
+    <header class="top-nav">
+        <div class="nav-left">
+            <div class="logo">
+                <img src="https://raw.githubusercontent.com/abstractanuj/abstractanuj.github.io/dcc9bd6803fd535102cec73aa0bfdee720674bc3/mms/Pidilite_logo.svg.png" alt="Pidilite Logo" style="height: 24px;" referrerPolicy="no-referrer" />
+                <span style="margin-left: 4px; font-weight: 400; color: #cbd5e1;">| P-MMS</span>
+            </div>
+            <nav class="nav-links" id="main-nav">
+                <a href="#" data-target="view-dashboard" class="active" id="nav-dashboard">Dashboards</a>
+                <a href="#" data-target="view-maintenance" id="nav-maintenance">Maintenance</a>
+                <a href="#" data-target="view-capabilities" id="nav-capabilities">System Capabilities</a>
+                <a href="#" id="nav-projects-with">Projects with Moulds</a>
+                <a href="#" id="nav-projects-without">Projects without Moulds</a>
+                <a href="#" id="nav-alerts">Alerts</a>
+                <a href="#" id="nav-sap">SAP Integration</a>
+                <a href="#" id="nav-reports">Reports</a>
+            </nav>
+        </div>
+        <div class="nav-right">
+            <button class="icon-btn relative" id="btn-logout" title="Logout">
+                <i data-lucide="log-out" class="icon-sm"></i>
+            </button>
+            <button class="icon-btn relative">
+                <i data-lucide="bell" class="icon-sm"></i>
+                <span class="badge"></span>
+            </button>
+            <div class="avatar">
+                <i data-lucide="user" class="icon-sm text-dark"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div class="layout">
+        
+        <!-- ========================================== -->
+        <!-- VIEW: EXECUTIVE DASHBOARD (Original)       -->
+        <!-- ========================================== -->
+        <div id="view-dashboard" class="view-container active">
+            <!-- Left Sidebar: Filters -->
+            <aside class="sidebar">
+                <div class="sidebar-header">Filters</div>
+                <div class="sidebar-content">
+                    <div class="filter-group">
+                        <div class="filter-title">Mould Status</div>
+                        <label class="radio-label">
+                            <input type="radio" name="status" value="All"> All
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="status" value="Active" checked> Active
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="status" value="Inactive"> Inactive
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="status" value="Scrap"> Scrap
+                        </label>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-title">Project Stage</div>
+                        <select class="filter-select" id="filter-stage">
+                            <option value="all">All Stages</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-title">Vendor</div>
+                        <select class="filter-select" id="filter-vendor">
+                            <option value="all">All Vendors</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <div class="filter-title">PIL TEAM</div>
+                        <select class="filter-select" id="filter-pil-team">
+                            <option value="all">All PIL TEAM</option>
+                        </select>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Right Main Content -->
+            <main class="main-content">
+                <!-- Top Row: Part 1 & Part 2 -->
+                <div class="top-row">
+                    <!-- Part 1: Projects WITH Moulds -->
+                    <div class="panel part1">
+                        <div class="panel-header flex-between">
+                            <span>Part 1: Projects WITH Moulds</span>
+                            <div style="display: flex; gap: 8px;">
+                                <button class="btn-sm" id="btn-export-excel"><i data-lucide="file-spreadsheet" class="icon-xs"></i> Excel</button>
+                                <button class="btn-sm" id="btn-export-pdf"><i data-lucide="file-text" class="icon-xs"></i> PDF Report</button>
+                            </div>
+                        </div>
+                        <div class="panel-body">
+                            <div class="kpi-grid-4">
+                                <div class="kpi-card">
+                                    <div class="kpi-title">Total Moulds</div>
+                                    <div class="kpi-value" id="kpi-total-moulds">0</div>
+                                    <div class="kpi-sub">Matching Filters</div>
+                                </div>
+                                <div class="kpi-card">
+                                    <div class="kpi-title">Capacity Utilization</div>
+                                    <div class="kpi-value">78%</div>
+                                </div>
+                                <div class="kpi-card">
+                                    <div class="kpi-title">Alerts Pending</div>
+                                    <div class="kpi-value text-red" id="kpi-alerts-pending">0</div>
+                                </div>
+                                <div class="kpi-card">
+                                    <div class="kpi-title">Contract Expiring Soon</div>
+                                    <div class="kpi-value text-red">2</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-container">
+                            <table id="table-part1">
+                                <thead>
+                                    <tr>
+                                        <th>Asset Code</th>
+                                        <th>Brand / SKU</th>
+                                        <th>Vendor</th>
+                                        <th>PIL TEAM</th>
+                                        <th>Machine</th>
+                                        <th class="text-center">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Part 2: Projects WITHOUT Moulds -->
+                    <div class="panel part2">
+                        <div class="panel-header">Part 2: Projects WITHOUT Moulds</div>
+                        <div class="panel-body">
+                            <div class="kpi-grid-2">
+                                <div class="kpi-card">
+                                    <div class="kpi-title">Total Projects</div>
+                                    <div class="kpi-value">18</div>
+                                </div>
+                                <div class="kpi-card">
+                                    <div class="kpi-title">Qualification Reports Pending</div>
+                                    <div class="kpi-value text-amber">3</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table-container border-bottom">
+                            <table id="table-part2">
+                                <thead>
+                                    <tr>
+                                        <th>Project Name</th>
+                                        <th>PM Qualification</th>
+                                        <th>Line Trials</th>
+                                        <th>Stability Reports</th>
+                                        <th>Transit Trial Reports</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="chart-container">
+                            <div class="chart-title">Monthly Mould Capacity Utilization based on Forecast</div>
+                            <div class="canvas-wrapper">
+                                <canvas id="capacityChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Row: Alerts -->
+                <div class="panel alerts-panel">
+                    <div class="panel-header">Alerts</div>
+                    <div class="alerts-list" id="alerts-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW: MAINTENANCE DASHBOARD                -->
+        <!-- ========================================== -->
+        <div id="view-maintenance" class="view-container hidden">
+            <main class="main-content" style="flex: 1;">
+                
+                <!-- KPI Row -->
+                <div class="kpi-grid-4" style="flex-shrink: 0;">
+                    <div class="panel kpi-card" style="padding: 16px;">
+                        <div class="kpi-title text-muted">Molds in Production</div>
+                        <div class="kpi-value text-blue" id="kpi-molds-prod">0</div>
+                        <div class="kpi-sub">Active Tooling</div>
+                    </div>
+                    <div class="panel kpi-card" style="padding: 16px;">
+                        <div class="kpi-title text-muted">Scheduled vs Unscheduled Stops</div>
+                        <div class="kpi-value">88% / 12%</div>
+                        <div class="kpi-sub text-green">Healthy Ratio</div>
+                    </div>
+                    <div class="panel kpi-card" style="padding: 16px;">
+                        <div class="kpi-title text-muted">Overall PM Status</div>
+                        <div class="kpi-value text-amber">94%</div>
+                        <div class="kpi-sub">Compliance</div>
+                    </div>
+                    <div class="panel kpi-card" style="padding: 16px;">
+                        <div class="kpi-title text-muted">Critical Spares</div>
+                        <div class="kpi-value text-red">2</div>
+                        <div class="kpi-sub">Items below re-order point</div>
+                    </div>
+                </div>
+
+                <!-- Main Split -->
+                <div class="top-row" style="margin-top: 0;">
+                    
+                    <!-- Left Column -->
+                    <div style="flex: 1.5; display: flex; flex-direction: column; gap: 16px; min-height: 0;">
+                        
+                        <!-- Status Alerts -->
+                        <div class="panel" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
+                            <div class="panel-header flex-between">
+                                <span>Live Status Alerts</span>
+                                <span class="text-xs font-normal">Cycle Count Thresholds</span>
+                            </div>
+                            <div class="table-container">
+                                <table id="table-status-alerts">
+                                    <thead>
+                                        <tr>
+                                            <th>Status</th>
+                                            <th>Asset Code</th>
+                                            <th>Brand / SKU</th>
+                                            <th>Current Cycles</th>
+                                            <th>PM Threshold</th>
+                                            <th>Action Required</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Populated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <!-- Inventory Monitoring -->
+                        <div class="panel" style="flex: 1; display: flex; flex-direction: column; min-height: 0;">
+                            <div class="panel-header flex-between">
+                                <span>Inventory Monitoring</span>
+                                <button class="btn-sm">Run Report</button>
+                            </div>
+                            <div class="table-container">
+                                <table id="table-inventory">
+                                    <thead>
+                                        <tr>
+                                            <th>Tooling / Spare Part</th>
+                                            <th>In Stock</th>
+                                            <th>Re-order Point</th>
+                                            <th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Populated by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Column -->
+                    <div style="flex: 1; display: flex; flex-direction: column; gap: 16px; min-height: 0;">
+                        
+                        <!-- Standard Terminology Form -->
+                        <div class="panel" style="flex: 1.5; display: flex; flex-direction: column;">
+                            <div class="panel-header">Log Maintenance (Standard Terminology)</div>
+                            <div class="panel-body" style="flex: 1; overflow-y: auto;">
+                                <form class="maintenance-form">
+                                    <div class="form-group">
+                                        <label>Asset Code</label>
+                                        <select class="filter-select" id="maint-asset-select">
+                                            <option>Select Asset...</option>
+                                            <!-- Populated by JS -->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Defect / Task Type <span class="text-muted italic">(Standardized)</span></label>
+                                        <select class="filter-select">
+                                            <option>Select Task...</option>
+                                            <option>PM - Level 1 (Cleaning)</option>
+                                            <option>PM - Level 2 (Disassembly)</option>
+                                            <option>Corrective - Flash Issue</option>
+                                            <option>Corrective - Water Leak</option>
+                                            <option>Corrective - Short Shot</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Custom Field: Cavity Block Condition</label>
+                                        <input type="text" class="filter-select" placeholder="User customizable field...">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Action Taken</label>
+                                        <select class="filter-select">
+                                            <option>Select Action...</option>
+                                            <option>Cleaned & Polished</option>
+                                            <option>O-Rings Replaced</option>
+                                            <option>Ejector Pins Replaced</option>
+                                            <option>Hot Runner Manifold Cleaned</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn-primary mt-2" onclick="alert('Maintenance logged successfully in DB.')">Submit Log</button>
+                                </form>
+                            </div>
+                        </div>
+
+                        <!-- Knowledge Base -->
+                        <div class="panel" style="flex: 1; display: flex; flex-direction: column;">
+                            <div class="panel-header">Knowledge Base & Guides</div>
+                            <div class="panel-body" style="flex: 1; overflow-y: auto; padding: 0;">
+                                <div class="kb-list">
+                                    <a href="#" class="kb-item">
+                                        <i data-lucide="book-open" class="icon-blue"></i>
+                                        <div>
+                                            <div class="font-bold text-sm">Tech Tips</div>
+                                            <div class="text-xs text-muted">Disassembly, cleaning, and polishing procedures.</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="kb-item">
+                                        <i data-lucide="alert-octagon" class="icon-amber"></i>
+                                        <div>
+                                            <div class="font-bold text-sm">Defect/Task Guide</div>
+                                            <div class="text-xs text-muted">Troubleshooting, probable causes, and corrective actions.</div>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="kb-item">
+                                        <i data-lucide="settings" class="text-dark"></i>
+                                        <div>
+                                            <div class="font-bold text-sm">Hot Runner Specifications</div>
+                                            <div class="text-xs text-muted">Manifold maintenance, repair instructions, and images.</div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- ========================================== -->
+        <!-- VIEW: SYSTEM CAPABILITIES MATRIX           -->
+        <!-- ========================================== -->
+        <div id="view-capabilities" class="view-container hidden">
+            <main class="main-content" style="flex: 1;">
+                <div class="panel" style="height: 100%; display: flex; flex-direction: column;">
+                    <div class="panel-header">System Capabilities & Requirements Matrix</div>
+                    <div class="table-container" style="flex: 1; overflow-y: auto;">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Feature</th>
+                                    <th>Priority</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr><td class="font-medium">Functional Capabilities</td><td>Mold Registration & Asset Master</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Functional Capabilities</td><td>Mold Location Tracking</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Functional Capabilities</td><td>Vendor E-Confirmation</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Functional Capabilities</td><td>Transfer Workflow</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Functional Capabilities</td><td>Lifecycle Tracking</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Functional Capabilities</td><td>Alerts and Notifications</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Functional Capabilities</td><td>Maintenance & Refurbishment</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Integration & Automation</td><td>SAP Integration</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Integration & Automation</td><td>Email/SMS Gateway</td><td><span class="text-amber font-bold">Medium</span></td></tr>
+                                <tr><td class="font-medium">Reporting & Analytics</td><td>MIS Dashboard</td><td><span class="text-amber font-bold">Medium</span></td></tr>
+                                <tr><td class="font-medium">Reporting & Analytics</td><td>Lifecycle Analysis</td><td><span class="text-amber font-bold">Medium</span></td></tr>
+                                <tr><td class="font-medium">Usability & Security</td><td>Role-based Access</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Usability & Security</td><td>Audit Trail</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Usability & Security</td><td>Mobile/Cloud Access</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Usability & Security</td><td>Ease of Use</td><td><span class="text-amber font-bold">Medium</span></td></tr>
+                                <tr><td class="font-medium">Commercial & Implementation</td><td>Pricing Model</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Commercial & Implementation</td><td>Implementation Time</td><td><span class="text-red font-bold">High</span></td></tr>
+                                <tr><td class="font-medium">Commercial & Implementation</td><td>Local Support & AMC</td><td><span class="text-blue font-bold">Required</span></td></tr>
+                                <tr><td class="font-medium">Commercial & Implementation</td><td>Scalability</td><td><span class="text-blue font-bold">Required</span></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+    </div>
+
+    <!-- Modal Overlay for Deep Dives -->
+    <div class="modal-overlay" id="project-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Project Details</h2>
+                <button class="icon-btn" id="close-modal"><i data-lucide="x" class="text-dark"></i></button>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- Populated by JS -->
+            </div>
+            <div class="modal-footer">
+                <button class="btn-sm" id="btn-modal-close">Close</button>
+                <button class="btn-primary" style="width: auto;">View Full Report</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>
